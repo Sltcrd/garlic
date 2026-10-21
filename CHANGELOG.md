@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.1
+
+- Fixed: Alt + click on a file on the **Desktop** opened an unrelated file selected in another Explorer window. Desktop icons are now identified by a list-view hit test at the cursor position (UI Automation does not expose them), independent of any Explorer selection.
+
 ## 1.2.0
 
 - **Update check:** the app asks GitHub for the latest release and, if newer, shows a download indicator with the release notes (opens the release page; nothing is installed automatically). On by default; turn it off in System → Check for updates.

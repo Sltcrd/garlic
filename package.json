@@ -1,7 +1,7 @@
 {
   "name": "garlic",
   "productName": "Garlic",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Garlic: convert, edit and organize files from a small wheel that opens next to any file.",
   "main": "src/main/index.js",
   "license": "MIT",
