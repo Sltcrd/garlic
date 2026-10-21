@@ -8,7 +8,7 @@
 
 Mantén una tecla, haz clic sobre un archivo y elige a qué formato convertirlo, qué herramienta usar o qué hacer con él.
 
-[English](README.en.md) · Español
+[English](README.en.md) · Español · [Sitio web](https://sltcrd.github.io/garlic/)
 
 <img src="docs/img/wheel-convert.png" alt="La rueda de Garlic junto a un archivo" width="300">
 
@@ -241,7 +241,7 @@ garlic/
 ├─ tests/
 │  ├─ unit/                Pruebas unitarias (seguridad, ajustes, idioma)
 │  └─ e2e/                 Pruebas de extremo a extremo con la app real
-├─ docs/                   ARCHITECTURE.md, PLATFORMS.md e imágenes
+├─ docs/                   Sitio web (index.html, GitHub Pages), ARCHITECTURE.md, PLATFORMS.md e imágenes
 └─ .github/                CI y plantillas de issues
 ```
 
