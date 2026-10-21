@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.3
+
+- Fixed: right after installing, Alt + click did nothing for up to a minute with no explanation. The app now shows **Starting the shortcut…** until it is ready and a notification explains the delay if the shortcut is used early.
+- Fixed: after choosing a file with **Choose file…** the wheel could disappear immediately; it now stays open when focus returns from the closing dialog.
+- The Windows file detector compiles its helpers once instead of three times, to shorten the first start.
+
 ## 1.2.2
 
 - Fixed: Markdown → PDF no longer splits tall images across two pages; they are scaled to fit, and sizes set with `width="…"` are respected.
