@@ -117,3 +117,15 @@ test('editor tools write their results next to the original', async () => {
   await run('mp4', 'v_split', `MODES.v_split.s = 1`);
   await waitFor(() => fs.existsSync(path.join(dir, 'clip_parts')) && fs.readdirSync(path.join(dir, 'clip_parts')).length >= 1, { what: 'split parts', timeout: 40000 });
 });
+
+test('Markdown → PDF never splits a tall image across two pages', async () => {
+  fs.writeFileSync(path.join(dir, 'alta.png'), makePng(400, 2400, [58, 134, 255]));
+  fs.writeFileSync(path.join(dir, 'alta.md'), '# Imagen alta\n\nTexto previo.\n\n![alta](alta.png)\n\nTexto final.\n');
+  await open(path.join(dir, 'alta.md'));
+  const r = await wheel.eval(`(async () => {
+    const f = (await produce('pdf'))[0], doc = await loadPdf(new Uint8Array(await f.blob.arrayBuffer())), out = [];
+    for (let i = 1; i <= doc.numPages; i++) { const c = await renderPdfPage(doc, i), d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data; let n = 0; for (let k = 0; k < d.length; k += 4) if (Math.abs(d[k] - 58) < 30 && Math.abs(d[k + 1] - 134) < 30 && Math.abs(d[k + 2] - 255) < 30) n++; out.push(n); }
+    return out;
+  })()`);
+  assert.equal(r.filter(n => n > 500).length, 1, 'the image is drawn on exactly one page: ' + JSON.stringify(r));
+});
