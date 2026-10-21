@@ -21,6 +21,7 @@ async function waitFor(fn, { timeout = 20000, step = 150, what = 'condition' } =
 class Page {
   constructor(target) { this.target = target; this.id = 0; this.pending = new Map(); this.events = []; }
   async connect() {
+    if (typeof WebSocket === 'undefined') throw new Error('The e2e tests need Node.js 22+ (global WebSocket).');
     this.ws = new WebSocket(this.target.webSocketDebuggerUrl);
     await new Promise((res, rej) => { this.ws.onopen = res; this.ws.onerror = rej; });
     this.ws.onmessage = m => {
