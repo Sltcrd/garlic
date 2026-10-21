@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.0
+
+- **Safer builds:** every library Garlic uses is now locked to an exact, verified version, and a new library release is not accepted until it has been public for 3 days. Details in SECURITY.md.
+- **Smaller download:** about 15 MB less, by removing a native component Garlic did not use.
+- **Verify your download:** each release now includes a `.sha256` file with the checksum of the zip.
+- Under the hood: the project builds with pnpm, ESLint 10 and Electron 44.9.0, and the CI is hardened (commit-pinned actions, least-privilege permissions, vulnerability gate).
+
 ## 1.2.3
 
 - Fixed: right after installing, Alt + click did nothing for up to a minute with no explanation. The app now shows **Starting the shortcut…** until it is ready and a notification explains the delay if the shortcut is used early.

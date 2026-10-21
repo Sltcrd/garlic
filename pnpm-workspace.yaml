@@ -1,0 +1,30 @@
+# pnpm settings (supply-chain hardening). See SECURITY.md → "Dependencies and supply chain".
+
+# A flat node_modules, as Electron's portable layout needs (no symlinks).
+nodeLinker: hoisted
+
+# Dependency install/build scripts never run unless listed here. These three download or unpack a native binary.
+allowBuilds:
+  ffmpeg-static: true
+  uiohook-napi: true
+  core-js: false # only prints a donation banner
+  electron: set this to true or false
+strictDepBuilds: true
+
+# Do not install versions published less than 3 days ago (most malicious releases are caught within hours/days),
+# and refuse a package whose publishing trust level dropped (e.g. lost provenance) compared with earlier releases.
+minimumReleaseAge: 4320
+minimumReleaseAgeStrict: true
+trustPolicy: no-downgrade
+
+# Git/tarball dependencies are only allowed as direct dependencies in package.json (xlsx comes from SheetJS' CDN).
+blockExoticSubdeps: true
+
+overrides:
+  sprintf-js: 1.1.3
+  # pdf.js only needs this native canvas for rendering in Node; Garlic renders PDFs in Chromium, so it is removed.
+  '@napi-rs/canvas': '-'
+
+# undici-types@6.21.0 is a types-only dev dependency of Electron's @types/node (no code), flagged only because it predates npm provenance.
+trustPolicyExclude:
+  - 'undici-types@6.21.0'

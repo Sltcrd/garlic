@@ -1,6 +1,6 @@
 ## What changed
 
-## How I tested it (OS, `npm run verify`)
+## How I tested it (OS, `pnpm run verify`)
 
-- [ ] `npm run verify` passes
+- [ ] `pnpm run verify` passes
 - [ ] No new network access / IPC channels validated
