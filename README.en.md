@@ -14,7 +14,7 @@ English · [Español](README.md)
 
 </div>
 
-> **Status:** version 1.0 · tested on **Windows 10/11**. macOS is implemented but **untested**, and Linux works **without the click shortcut** (see [Platform support](#platform-support)).
+> **Status:** [latest release](https://github.com/Sltcrd/garlic/releases/latest) · tested on **Windows 10/11**. macOS is implemented but **untested**, and Linux works **without the click shortcut** (see [Platform support](#platform-support)).
 > Garlic is an independent app inspired by the idea of [Tangerine for Mac](https://tangerineformac.com/); it is unaffiliated and shares no code or design with it.
 
 ---
@@ -139,6 +139,14 @@ Without a global install: `node bin/garlic.js file.pdf`.
 ### Start with the system
 
 In the app: **System → Start with the system** (Windows and macOS).
+
+### Find it in Windows search and pin it
+
+The portable folder is not installed, so Windows cannot find it when searching. In the app: **System → Shortcut → Add to Start menu** (or *Create on desktop*). Then you can search for "Garlic" and pin it to Start or the taskbar. If you move the folder, press the button again.
+
+### Updates
+
+Garlic shows a download icon when a newer version exists, with what changed; the button opens the release page. It never installs anything by itself. Turn it off under **System → Check for updates**. All changes are listed in [CHANGELOG.md](CHANGELOG.md).
 
 ## Platform support
 
