@@ -14,7 +14,7 @@ Mantén una tecla, haz clic sobre un archivo y elige a qué formato convertirlo,
 
 </div>
 
-> **Estado:** versión 1.0 · probada en **Windows 10/11**. macOS está implementado pero **sin probar** y Linux funciona **sin el atajo de clic** (ver [Compatibilidad](#compatibilidad-por-sistema)).
+> **Estado:** [última versión](https://github.com/Sltcrd/garlic/releases/latest) · probada en **Windows 10/11**. macOS está implementado pero **sin probar** y Linux funciona **sin el atajo de clic** (ver [Compatibilidad](#compatibilidad-por-sistema)).
 > Garlic es una aplicación independiente, inspirada en la idea de [Tangerine para Mac](https://tangerineformac.com/); no tiene relación con ella ni comparte código ni diseño.
 
 ---
@@ -139,6 +139,14 @@ Sin instalar globalmente: `node bin/garlic.js archivo.pdf`.
 ### Iniciar con el sistema
 
 En la app: **Sistema → Iniciar con el sistema**. (Windows y macOS.)
+
+### Buscarlo en Windows y anclarlo
+
+La carpeta portable no se instala, así que Windows no la encuentra al buscar. En la app: **Sistema → Acceso directo → Añadir al menú Inicio** (o *Crear en el escritorio*). Después puedes buscar «Garlic» y anclarlo al menú Inicio o a la barra de tareas. Si mueves la carpeta, vuelve a pulsar el botón.
+
+### Actualizaciones
+
+Garlic avisa con un icono de descarga cuando hay una versión nueva y muestra sus novedades; el botón abre la página de la release. No instala nada solo. Se desactiva en **Sistema → Buscar actualizaciones**. Todos los cambios están en [CHANGELOG.md](CHANGELOG.md).
 
 ## Compatibilidad por sistema
 
