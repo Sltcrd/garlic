@@ -57,6 +57,11 @@ English · [Español](README.md)
 
 You can also drop a file on the window, use **Choose file…**, or open one from the command line (`garlic file.pdf`).
 
+<div align="center">
+  <b>Quick demo</b><br>
+  <video src="https://github.com/user-attachments/assets/1d1ce855-d81c-4116-8478-6c83d8107a81" width="640" controls muted></video>
+</div>
+
 <p align="center"><img src="docs/img/editor-crop-zoom.png" alt="Editor with zoom" width="560">&nbsp;<img src="docs/img/job-cards.png" alt="Progress cards" width="360"></p>
 
 ## Installation
