@@ -16,7 +16,7 @@ contextBridge.exposeInMainWorld('native', {
   pick: () => ipcRenderer.invoke('app:pick'), openWheel: send('app:open-wheel'),
   /* settings */
   cfgDefaults: () => ipcRenderer.invoke('cfg:defaults'), cfgGet: () => ipcRenderer.invoke('cfg:get'), cfgSet: invoke('cfg:set'), onCfg: on('cfg:update'),
-  appInfo: () => ipcRenderer.invoke('app:info'), hookStatus: () => ipcRenderer.invoke('hook:status'), quit: () => ipcRenderer.send('app:quit'),
+  appInfo: () => ipcRenderer.invoke('app:info'), createShortcut: w => ipcRenderer.invoke('shortcut:create', w), hookStatus: () => ipcRenderer.invoke('hook:status'), quit: () => ipcRenderer.send('app:quit'),
   /* windows */
   winCtl: send('win:ctl'), onWinState: on('win:state'),
   onWheelOpen: on('wheel:open'), wheelHide: () => ipcRenderer.send('wheel:hide'), wheelPing: () => ipcRenderer.send('wheel:ping'),

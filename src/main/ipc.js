@@ -4,6 +4,7 @@ const { app, ipcMain, BrowserWindow, shell, screen } = require('electron');
 const fs = require('fs');
 const path = require('path');
 const config = require('./config');
+const paths = require('./paths');
 const security = require('./security');
 const windows = require('./windows');
 const hook = require('./hook');
@@ -73,6 +74,18 @@ function register({ onQuit }) {
   /* ---- misc ---- */
   ipcMain.on('app:quit', onQuit);
   ipcMain.handle('hook:status', () => hook.status());
+  /* Windows: a real .lnk so Garlic shows up in Start / search and can be pinned (the portable folder has no installer) */
+  ipcMain.handle('shortcut:create', (_e, where) => {
+    if (process.platform !== 'win32' || !['start', 'desktop'].includes(where)) return { ok: false };
+    const lnk = where === 'start'
+      ? path.join(app.getPath('appData'), 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'Garlic.lnk')
+      : path.join(app.getPath('desktop'), 'Garlic.lnk');
+    const ok = shell.writeShortcutLink(lnk, 'create', {
+      target: process.execPath, args: process.defaultApp ? '"' + app.getAppPath() + '"' : '', cwd: path.dirname(process.execPath),
+      icon: path.join(paths.ASSETS, 'icon.ico'), iconIndex: 0, description: 'Garlic', appUserModelId: 'com.garlic.app'
+    });
+    return { ok, path: lnk };
+  });
   ipcMain.handle('app:info', () => ({ version: app.getVersion(), platform: process.platform, locale: app.getLocale(), electron: process.versions.electron }));
   if (process.env.GARLIC_TEST === '1') {          // state probe used only by the automated tests
     const w = windows.state;

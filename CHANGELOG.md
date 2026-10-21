@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.0
+
+- CI now runs on Node 22; test runner no longer depends on shell globs.
+- Windows: **System → Shortcut** can add Garlic to the Start menu (so it shows up in Windows search and can be pinned) or create a desktop shortcut.
+
 ## 1.0.0
 
 First public release.
