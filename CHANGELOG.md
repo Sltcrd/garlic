@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.2
+
+- Fixed: Markdown → PDF no longer splits tall images across two pages; they are scaled to fit, and sizes set with `width="…"` are respected.
+
 ## 1.2.1
 
 - Fixed: Alt + click on a file on the **Desktop** opened an unrelated file selected in another Explorer window. Desktop icons are now identified by a list-view hit test at the cursor position (UI Automation does not expose them), independent of any Explorer selection.
