@@ -12,7 +12,7 @@ const EDITOR_TOOLS = new Set(['crop', 'bg', 'erase', 'compress', 'metadata', 'ed
   'a_compress', 'a_metadata', 'a_channels', 'a_normalize', 'a_trim', 'a_visualize',
   'v_compress', 'v_metadata', 'v_mute', 'v_trim', 'v_crop', 'v_speed', 'v_snapshot', 'v_split']);
 
-const state = { app: null, wheel: null, editor: null, quitting: false, lastActivity: 0 };
+const state = { app: null, wheel: null, editor: null, quitting: false, lastActivity: 0, shownAt: 0 };
 
 /** Shared, locked-down web preferences: no Node in renderers, sandboxed, context isolated. */
 function webPreferences() {
@@ -53,7 +53,7 @@ function createWheel() {
   });
   w.setAlwaysOnTop(true, 'screen-saver');
   w.loadFile(paths.renderer('wheel'));
-  w.on('blur', () => hideWheel('blur'));
+  w.on('blur', () => { if (Date.now() - state.shownAt < 800) w.focus(); else hideWheel('blur'); });   // ignore the focus shuffle right after it appears
   return w;
 }
 const wheelOpen = () => !!state.wheel && !state.wheel.isDestroyed() && state.wheel.isVisible();
@@ -70,7 +70,7 @@ function showWheel(file, pt) {
   let x = pt.x + 18; if (x + WHEEL_W > wa.x + wa.width) x = pt.x - 18 - WHEEL_W;
   let y = pt.y - 150;
   x = Math.max(wa.x, Math.min(x, wa.x + wa.width - WHEEL_W)); y = Math.max(wa.y, Math.min(y, wa.y + wa.height - WHEEL_H));
-  state.lastActivity = Date.now();
+  state.lastActivity = state.shownAt = Date.now();
   w.setAlwaysOnTop(true, 'screen-saver');
   w.setBounds({ x: Math.round(x), y: Math.round(y), width: WHEEL_W, height: WHEEL_H });
   let isDir = false; try { isDir = fs.statSync(file).isDirectory(); } catch { /* vanished */ }
