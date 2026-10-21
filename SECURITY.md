@@ -13,7 +13,7 @@ Only the latest release receives fixes.
 
 ## Security model
 
-Garlic is a local desktop app. It has no server, accounts, telemetry or network access of its own.
+Garlic is a local desktop app. It has no server, accounts or telemetry. Its only network request is the optional update check (below).
 
 | Layer | Measure |
 |---|---|
@@ -24,6 +24,7 @@ Garlic is a local desktop app. It has no server, accounts, telemetry or network 
 | ffmpeg | Run without a shell, with an allow-list of arguments and validated numeric/enum values. |
 | Document rendering | HTML/Markdown/Word/PowerPoint → PDF runs in a throw-away session with JavaScript disabled and all network and `file://` access outside the document's folder blocked. |
 | Settings | `config.json` is validated against a schema on load and on every change; unknown keys are dropped. |
+| Update check | One HTTPS GET from the main process to `api.github.com/repos/Sltcrd/garlic/releases/latest` (no token, no user data; the user agent is `Garlic/<version>`), every 6 hours and at start. Only the version, notes, date and a release URL are read; the URL must start with `https://github.com/Sltcrd/garlic/` or the repository page is used instead, and it is opened in the browser — nothing is downloaded or run by Garlic. Notes are shown as plain text. Disable it in System → Check for updates. |
 | Dependencies | `npm run audit:prod` is part of the checks; third-party licenses are in `THIRD_PARTY_NOTICES.md`. |
 
 ## Known and accepted risks

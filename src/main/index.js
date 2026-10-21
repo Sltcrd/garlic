@@ -3,7 +3,7 @@
  * Garlic — main process entry point: single instance, tray, windows, global shortcut, IPC.
  * Run with `npm start`. See docs/ARCHITECTURE.md for the overall layout.
  */
-const { app, Tray, Menu, session, screen } = require('electron');
+const { app, Tray, Menu, session, screen, BrowserWindow } = require('electron');
 const fs = require('fs');
 
 app.setName('Garlic');
@@ -15,6 +15,7 @@ const windows = require('./windows');
 const hook = require('./hook');
 const jobs = require('./jobs');
 const ipc = require('./ipc');
+const updates = require('./updates');
 const { notify, appIcon } = require('./notify');
 require('./media');
 require('./archive');
@@ -69,6 +70,11 @@ function main() {
     ipc.register({ onQuit: quit });
     windows.createApp(); windows.createWheel();
     hook.sync(); buildTray();
+    updates.init({
+      onChange: s => { for (const w of BrowserWindow.getAllWindows()) if (!w.isDestroyed()) w.webContents.send('update:state', s); },
+      notify: r => notify({ title: i18n.t('Actualización disponible'), body: i18n.t('Garlic {v} ya está disponible.', { v: r.version }) })
+    });
+    updates.sync(config.get().updates);
     config.onChange((_c, patch) => { if ('lang' in patch || 'combo' in patch) buildTray(); });
     openFromArgs(process.argv);
   });
