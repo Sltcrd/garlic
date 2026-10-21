@@ -11,7 +11,7 @@ const { app } = require('electron');
 const DEFAULTS = Object.freeze({
   bg: '#2a1a1f', op: 55, ac: '#b8607a', sg: '#f6f0e8', rd: 24,
   sound: true, vol: 60, hoverSound: true, jobCard: true,
-  autostart: false, hook: true, lang: 'auto',
+  autostart: false, hook: true, lang: 'auto', updates: true,
   theme: 'dark', glass: 50, blur: 26, sat: 160, material: 'acrylic', blobs: true, density: 'comfortable', scale: 100,
   combo: Object.freeze({ shift: false, ctrl: false, alt: true, meta: false, button: 1 })
 });
@@ -23,7 +23,7 @@ const oneOf = (...l) => v => l.includes(v);
 
 const SCHEMA = {
   bg: hex, ac: hex, sg: hex, op: num(0, 95), rd: num(0, 48), vol: num(0, 100), glass: num(0, 100), blur: num(0, 60), sat: num(100, 260), scale: num(85, 125),
-  sound: bool, hoverSound: bool, jobCard: bool, autostart: bool, hook: bool, blobs: bool,
+  sound: bool, hoverSound: bool, jobCard: bool, autostart: bool, hook: bool, blobs: bool, updates: bool,
   theme: oneOf('dark', 'light', 'auto'), material: oneOf('acrylic', 'mica', 'none'), density: oneOf('comfortable', 'compact'), lang: oneOf('auto', 'es', 'en')
 };
 

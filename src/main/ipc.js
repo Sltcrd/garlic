@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const config = require('./config');
 const paths = require('./paths');
+const updates = require('./updates');
 const security = require('./security');
 const windows = require('./windows');
 const hook = require('./hook');
@@ -29,6 +30,7 @@ function register({ onQuit }) {
     for (const w of BrowserWindow.getAllWindows()) if (!w.isDestroyed()) w.webContents.send('cfg:update', cfg);
     if ('autostart' in patch && process.platform !== 'linux') app.setLoginItemSettings(loginItem(!!cfg.autostart));
     if ('hook' in patch) hook.sync();
+    if ('updates' in patch) updates.sync(!!cfg.updates);
     if ('material' in patch) windows.applyMaterial();
   });
 
@@ -86,9 +88,14 @@ function register({ onQuit }) {
     });
     return { ok, path: lnk };
   });
+  /* ---- updates (see updates.js) ---- */
+  ipcMain.handle('update:get', () => updates.get());
+  ipcMain.handle('update:check', () => (config.get().updates ? updates.check() : updates.get()));
+  ipcMain.handle('update:open', () => { const u = updates.pageUrl(); if (u) shell.openExternal(u); return !!u; });
   ipcMain.handle('app:info', () => ({ version: app.getVersion(), platform: process.platform, locale: app.getLocale(), electron: process.versions.electron }));
   if (process.env.GARLIC_TEST === '1') {          // state probe used only by the automated tests
     const w = windows.state;
+    ipcMain.handle('test:update', (_e, patch) => { updates._test.set(patch); return updates.get(); });
     ipcMain.handle('test:jobs', () => require('./jobs').list());
     ipcMain.handle('test:state', () => ({
       wheel: windows.wheelOpen(), focused: windows.wheelOpen() && w.wheel.isFocused(),

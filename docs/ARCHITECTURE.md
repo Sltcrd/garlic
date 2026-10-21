@@ -35,6 +35,7 @@ Garlic is an Electron app with three kinds of windows that share one preload bri
 | `src/main/resolvers/` | `win32.js` (UIA + Shell), `darwin.js` (AppleScript, experimental), `index.js` picks one (Linux: none) |
 | `src/main/ipc.js` | One handler per channel; validates input before touching the filesystem |
 | `src/main/security.js` | Path grants, `safeRel`, executable-extension block, ffmpeg argument validation |
+| `src/main/updates.js` | Optional update check against GitHub Releases; state is pushed to the app window (`update:state`) |
 | `src/main/config.js` | Defaults, schema, `sanitize`, persistence in the user-data folder |
 | `src/main/i18n.js`, `src/shared/i18n*.js` | Language resolution and dictionaries |
 | `src/preload/index.js` | Whitelisted API exposed as `window.native` |

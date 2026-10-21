@@ -185,7 +185,7 @@ Los ajustes se guardan en un JSON dentro de la carpeta de datos del usuario:
 
 ## Privacidad y seguridad
 
-- **Todo ocurre en tu equipo.** No hay telemetría, cuentas ni peticiones de red; la interfaz carga solo archivos locales y su política CSP bloquea cualquier conexión.
+- **Todo ocurre en tu equipo.** No hay telemetría ni cuentas. La interfaz carga solo archivos locales y su política CSP bloquea cualquier conexión. **La única petición de red** es la búsqueda de actualizaciones: pregunta a la API pública de GitHub cuál es la última versión (sin enviar datos tuyos) y, si hay una nueva, muestra un icono de descarga con las novedades. No descarga ni instala nada por sí sola. Se desactiva en *Sistema → Buscar actualizaciones*.
 - Los archivos nunca se suben a ningún sitio. Los resultados se guardan **junto al original** (y puedes moverlos desde la tarjeta).
 - Las ventanas web están **aisladas** (sin Node.js, con *sandbox* y *context isolation*) y el proceso principal solo atiende a archivos que **tú has elegido**; valida rutas, ajustes y opciones de ffmpeg. Los documentos se renderizan a PDF en una ventana descartable **sin JavaScript y sin acceso a la red**.
 - Garlic nunca ejecuta ni abre `.exe`, scripts o accesos directos.

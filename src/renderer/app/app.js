@@ -41,6 +41,34 @@ $('#bclose').onclick = () => nat.winCtl('close'); $('#bmin').onclick = () => nat
 nat.onWinState(max => { $('#icMax').hidden = max; $('#icRes').hidden = !max; $('#bmax').title = max ? t('Restaurar') : t('Maximizar'); });
 $('#stest').onclick = () => Snd.play('ok');
 $('#squit').onclick = () => nat.quit();
+
+/* ---------- updates ---------- */
+const plainNotes = s => String(s || '').replace(/```/g, '').replace(/^#{1,6}\s*/gm, '').replace(/\*\*/g, '').replace(/`/g, '').replace(/^[-*]\s+/gm, '• ').trim();
+function renderUpdate(s) {
+  $('#updbtn').hidden = !(s && s.available && CFG.updates);
+  const st = $('#updstatus');
+  if (!CFG.updates) st.textContent = t('Búsqueda desactivada');
+  else if (s && s.checking) st.textContent = t('Buscando…');
+  else if (s && s.available) st.textContent = t('Hay una versión nueva: {v}', { v: s.version });
+  else if (s && s.error) st.textContent = t('No se pudo comprobar ahora.');
+  else if (s && s.checkedAt) st.textContent = t('Estás al día');
+  else st.textContent = t('Versión instalada');
+}
+function openUpdate() {
+  nat.updateGet().then(s => {
+    if (!s.available) return;
+    $('#updtitle').textContent = t('Garlic {v} ya está disponible.', { v: s.version });
+    $('#updmeta').textContent = s.published ? t('Publicada el {d}', { d: s.published }) : '';
+    $('#updnotes').textContent = plainNotes(s.notes) || t('Sin notas de versión.');
+    $('#updmodal').hidden = false;
+  });
+}
+$('#updbtn').onclick = openUpdate;
+$('#updlater').onclick = () => { $('#updmodal').hidden = true; };
+$('#updmodal').onclick = e => { if (e.target.id === 'updmodal') $('#updmodal').hidden = true; };
+$('#updgo').onclick = () => { nat.updateOpen(); $('#updmodal').hidden = true; };
+$('#updnow').onclick = () => nat.updateCheck().then(renderUpdate);
+nat.onUpdate(renderUpdate);
 if (PLATFORM === 'win32') {
   $('#shortcuts').hidden = false;
   for (const [id, where] of [['#scstart', 'start'], ['#scdesk', 'desktop']]) {
@@ -106,6 +134,7 @@ async function about() {
   const i = await nat.appInfo();
   $('#about').textContent = t('Garlic {v} · Electron {e} · Licencia MIT · Sin telemetría: tus archivos nunca salen de tu equipo.', { v: i.version, e: i.electron });
 }
-cfgInit().then(() => { sync(); refreshStatus(); renderPreviews(); about(); go(page); });
+cfgInit().then(() => { nat.updateGet().then(renderUpdate); sync(); refreshStatus(); renderPreviews(); about(); go(page); });
 document.addEventListener('cfg', sync);
-document.addEventListener('lang', () => { go(page); refreshStatus(); renderPreviews(); about(); syncCombo(); });
+document.addEventListener('cfg', () => nat.updateGet().then(renderUpdate));
+document.addEventListener('lang', () => { nat.updateGet().then(renderUpdate); go(page); refreshStatus(); renderPreviews(); about(); syncCombo(); });

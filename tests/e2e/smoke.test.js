@@ -67,3 +67,19 @@ test('editor is a separate, resizable window with zoom and pan', async () => {
   assert.equal(info.editor, true);
   assert.ok(info.editorBounds.width >= 560 && info.editorBounds.height >= 520, 'editor has a usable size');
 });
+
+test('an available update shows the indicator and its release notes; turning the check off hides it', async () => {
+  const page = await app.page('app');
+  const fake = { available: true, version: '9.9.9', notes: '## Added\n- **Something** new', url: 'https://github.com/Sltcrd/garlic/releases/tag/v9.9.9', published: '2030-01-01' };
+  await page.eval(`nat.testUpdate(${JSON.stringify(fake)})`);
+  await waitFor(() => page.eval(`!document.querySelector('#updbtn').hidden`), { what: 'update indicator' });
+  await page.eval(`document.querySelector('#updbtn').click()`);
+  await waitFor(() => page.eval(`!document.querySelector('#updmodal').hidden`), { what: 'update dialog' });
+  assert.match(await page.eval(`document.querySelector('#updtitle').textContent`), /9\.9\.9/);
+  const notes = await page.eval(`document.querySelector('#updnotes').textContent`);
+  assert.match(notes, /Added/); assert.doesNotMatch(notes, /[#*]/, 'markdown marks are stripped');
+  await page.eval(`document.querySelector('#updlater').click()`);
+  await page.eval(`nat.cfgSet({ updates: false })`);
+  await waitFor(() => page.eval(`document.querySelector('#updbtn').hidden`), { what: 'indicator hidden when the check is off' });
+  await page.eval(`nat.cfgSet({ updates: true })`);
+});
