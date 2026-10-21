@@ -11,11 +11,11 @@ const { spawn } = require('child_process');
 const SCRIPT = String.raw`
 $ErrorActionPreference='SilentlyContinue'
 [Console]::OutputEncoding=[Text.Encoding]::UTF8
-Add-Type -TypeDefinition 'using System.Runtime.InteropServices;public class DPI{[DllImport("user32.dll")]public static extern bool SetProcessDPIAware();}'
-[DPI]::SetProcessDPIAware() | Out-Null
-Add-Type -TypeDefinition 'using System;using System.Text;using System.Runtime.InteropServices;public class WinAt{[DllImport("user32.dll")]static extern IntPtr WindowFromPoint(long p);[DllImport("user32.dll")]static extern IntPtr GetAncestor(IntPtr h,uint f);[DllImport("user32.dll")]static extern int GetClassName(IntPtr h,StringBuilder s,int n);public static string RootClass(int x,int y){IntPtr h=WindowFromPoint(((long)y<<32)|(uint)x);if(h==IntPtr.Zero)return "";IntPtr r=GetAncestor(h,2);var sb=new StringBuilder(64);GetClassName(r==IntPtr.Zero?h:r,sb,64);return sb.ToString();}}'
+# one compilation instead of three: compiling is the slow part of the first start
 Add-Type -TypeDefinition @'
 using System;using System.Text;using System.Runtime.InteropServices;
+public class DPI{[DllImport("user32.dll")]public static extern bool SetProcessDPIAware();}
+public class WinAt{[DllImport("user32.dll")]static extern IntPtr WindowFromPoint(long p);[DllImport("user32.dll")]static extern IntPtr GetAncestor(IntPtr h,uint f);[DllImport("user32.dll")]static extern int GetClassName(IntPtr h,StringBuilder s,int n);public static string RootClass(int x,int y){IntPtr h=WindowFromPoint(((long)y<<32)|(uint)x);if(h==IntPtr.Zero)return "";IntPtr r=GetAncestor(h,2);var sb=new StringBuilder(64);GetClassName(r==IntPtr.Zero?h:r,sb,64);return sb.ToString();}}
 public class LvHit{
  [DllImport("user32.dll")]static extern IntPtr WindowFromPoint(long p);
  [DllImport("user32.dll")]static extern int GetClassName(IntPtr h,StringBuilder s,int n);
@@ -54,6 +54,7 @@ public class LvHit{
  }
 }
 '@
+[DPI]::SetProcessDPIAware() | Out-Null
 Add-Type -AssemblyName UIAutomationClient,UIAutomationTypes,WindowsBase
 $sh = New-Object -ComObject Shell.Application
 [Console]::Out.WriteLine('READY')
@@ -110,6 +111,7 @@ function start() {
   ps.on('error', () => { ps = null; ready = false; });
   ps.on('exit', () => { ready = false; ps = null; if (waiting) { waiting(''); waiting = null; } });
 }
+const isReady = () => ready;
 function stop() { try { if (ps) ps.kill(); } catch { /* already gone */ } ps = null; ready = false; }
 
 /** @param {{x:number,y:number}} pt screen coordinates in physical pixels */
@@ -123,4 +125,4 @@ function resolve(pt) {
   });
 }
 
-module.exports = { name: 'win32', supported: true, start, stop, resolve };
+module.exports = { name: 'win32', supported: true, start, stop, resolve, isReady };

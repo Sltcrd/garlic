@@ -4,8 +4,11 @@ const { screen } = require('electron');
 const config = require('./config');
 const windows = require('./windows');
 const resolver = require('./resolvers');
+const i18n = require('./i18n');
+const { notify } = require('./notify');
 
-let uio = null, running = false, initialised = false, error = '';
+let uio = null, running = false, initialised = false, error = '', lastStartingNote = 0;
+const GRACE_MS = 800;   // right after the wheel appears (for instance when the file dialog closes) focus and mouse events are still settling
 
 /* Own modifier tracking: uiohook's internal mask can miss the first press after start-up. */
 const MODIFIER = { 29: 'ctrl', 3613: 'ctrl', 42: 'shift', 54: 'shift', 56: 'alt', 3640: 'alt', 3675: 'meta', 3676: 'meta' };
@@ -20,8 +23,12 @@ function matches(e) {
 }
 
 function onMouse(e) {
-  if (windows.wheelOpen() && windows.outsideWheel(e)) windows.hideWheel('outside-click');
+  if (windows.wheelOpen() && windows.outsideWheel(e) && Date.now() - windows.state.shownAt > GRACE_MS) windows.hideWheel('outside-click');
   if (!config.get().hook || !matches(e)) return;
+  if (!resolver.isReady()) {                    // the file detector is still starting (slow the first time: Windows scans new files)
+    if (Date.now() - lastStartingNote > 10000) { lastStartingNote = Date.now(); notify({ title: 'Garlic', body: i18n.t('Garlic se está iniciando. Prueba de nuevo en unos segundos.') }); }
+    return;
+  }
   const pt = screen.screenToDipPoint({ x: e.x, y: e.y });
   resolver.resolve({ x: e.x, y: e.y }).then(file => { if (file) windows.showWheel(file, pt); });
 }
@@ -41,6 +48,6 @@ function sync() {
   else if (!config.get().hook && running) { uio.stop(); running = false; }
 }
 function stop() { try { if (running && uio) uio.stop(); } catch { /* shutting down */ } running = false; resolver.stop(); }
-const status = () => ({ on: running, err: error, supported: resolver.supported, platform: process.platform });
+const status = () => ({ on: running, starting: running && !resolver.isReady(), err: error, supported: resolver.supported, platform: process.platform });
 
 module.exports = { sync, stop, status };
