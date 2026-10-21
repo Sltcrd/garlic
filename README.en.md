@@ -8,7 +8,7 @@
 
 Hold a key, click a file, and pick the format to convert it to, the tool to use or what to do with it.
 
-English · [Español](README.md)
+English · [Español](README.md) · [Website](https://sltcrd.github.io/garlic/)
 
 <img src="docs/img/wheel-convert.png" alt="Garlic's wheel next to a file" width="300">
 
@@ -241,7 +241,7 @@ garlic/
 ├─ tests/
 │  ├─ unit/                Unit tests (security, settings, language)
 │  └─ e2e/                 End-to-end tests driving the real app
-├─ docs/                   ARCHITECTURE.md, PLATFORMS.md and images
+├─ docs/                   Website (index.html, GitHub Pages), ARCHITECTURE.md, PLATFORMS.md and images
 └─ .github/                CI and issue templates
 ```
 
