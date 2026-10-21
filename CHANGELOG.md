@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.2.0
 
 - **Update check:** the app asks GitHub for the latest release and, if newer, shows a download indicator with the release notes (opens the release page; nothing is installed automatically). On by default; turn it off in System → Check for updates.
 - Release notes are now generated from this changelog.
