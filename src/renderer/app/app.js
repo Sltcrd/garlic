@@ -41,6 +41,13 @@ $('#bclose').onclick = () => nat.winCtl('close'); $('#bmin').onclick = () => nat
 nat.onWinState(max => { $('#icMax').hidden = max; $('#icRes').hidden = !max; $('#bmax').title = max ? t('Restaurar') : t('Maximizar'); });
 $('#stest').onclick = () => Snd.play('ok');
 $('#squit').onclick = () => nat.quit();
+if (PLATFORM === 'win32') {
+  $('#shortcuts').hidden = false;
+  for (const [id, where] of [['#scstart', 'start'], ['#scdesk', 'desktop']]) {
+    const b = $(id), label = b.textContent;
+    b.onclick = async () => { const r = await nat.createShortcut(where); b.textContent = t(r.ok ? 'Acceso directo creado' : 'No se pudo crear el acceso directo'); setTimeout(() => { b.textContent = t(label); }, 2500); };
+  }
+}
 $('#pickTop').onclick = () => nat.pick();
 
 const drop = $('#drop');
