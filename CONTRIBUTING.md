@@ -11,7 +11,7 @@ npm install
 npm start
 ```
 
-Node.js 20+ is required.
+Node.js 20+ runs the app and the unit tests; the end-to-end tests need Node.js 22+.
 
 ## Before you open a pull request
 
