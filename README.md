@@ -63,7 +63,7 @@ También puedes soltar un archivo en la ventana, usar **Elegir archivo…** o ab
 
 ### Requisitos
 
-- **Node.js 20 o superior** (solo para las opciones B, C y D; no hace falta con el zip de la Opción A) — <https://nodejs.org>
+- **Node.js 20.19 o superior** y **pnpm 11** (solo para las opciones B, C y D; no hacen falta con el zip de la Opción A) — <https://nodejs.org>. Para instalar pnpm: `npm install -g pnpm` (o `corepack enable`).
 - Conexión a internet **durante la instalación** (se descargan Electron y ffmpeg); después funciona sin conexión.
 - Windows 10/11 (ver [compatibilidad](#compatibilidad-por-sistema) para otros sistemas).
 
@@ -86,8 +86,8 @@ También puedes soltar un archivo en la ventana, usar **Elegir archivo…** o ab
 ```bat
 git clone https://github.com/Sltcrd/garlic.git
 cd garlic
-npm install
-npm start
+pnpm install --frozen-lockfile
+pnpm start
 ```
 
 **PowerShell**
@@ -95,8 +95,8 @@ npm start
 ```powershell
 git clone https://github.com/Sltcrd/garlic.git
 Set-Location garlic
-npm install
-npm start
+pnpm install --frozen-lockfile
+pnpm start
 ```
 
 **Bash (macOS / Linux / Git Bash)**
@@ -104,20 +104,20 @@ npm start
 ```bash
 git clone https://github.com/Sltcrd/garlic.git
 cd garlic
-npm install
-npm start
+pnpm install --frozen-lockfile
+pnpm start
 ```
 
-`npm install` descarga Electron, ffmpeg y las demás dependencias (≈ 600 MB). Si falla la descarga de Electron, ejecuta `node node_modules/electron/install.js` y repite `npm start`.
+`pnpm install --frozen-lockfile` instala **exactamente** las versiones del archivo `pnpm-lock.yaml` (≈ 600 MB) y no ejecuta scripts de dependencias salvo los de tres paquetes aprobados (ffmpeg y el atajo); ver [Seguridad de las dependencias](SECURITY.md#dependencies-and-supply-chain). Electron se descarga la primera vez que arrancas; si falla, ejecuta `node node_modules/electron/install.js` y repite `pnpm start`.
 
-Para arrancar **oculto en la bandeja**: `npm run start:hidden`.
+Para arrancar **oculto en la bandeja**: `pnpm run start:hidden`.
 
 ### Opción C — Generar tu propia carpeta portable (opcional)
 
 ```bash
-npm install
-npm run package          # crea out/Garlic-<sistema>-<arquitectura>/
-npm run package:zip      # además crea el .zip
+pnpm install --frozen-lockfile
+pnpm run package          # crea out/Garlic-<sistema>-<arquitectura>/
+pnpm run package:zip      # además crea el .zip
 ```
 
 En Windows ejecuta `out\Garlic-win32-x64\Garlic.vbs`.
@@ -127,7 +127,7 @@ En Windows ejecuta `out\Garlic-win32-x64\Garlic.vbs`.
 ### Opción D — Línea de comandos
 
 ```bash
-npm install -g .         # desde la carpeta del proyecto
+pnpm link --global         # desde la carpeta del proyecto
 garlic                   # abre Garlic
 garlic "C:\fotos\a.png"  # abre la rueda para ese archivo (si ya está abierto, la reutiliza)
 ```
@@ -197,6 +197,7 @@ Los ajustes se guardan en un JSON dentro de la carpeta de datos del usuario:
 - Los archivos nunca se suben a ningún sitio. Los resultados se guardan **junto al original** (y puedes moverlos desde la tarjeta).
 - Las ventanas web están **aisladas** (sin Node.js, con *sandbox* y *context isolation*) y el proceso principal solo atiende a archivos que **tú has elegido**; valida rutas, ajustes y opciones de ffmpeg. Los documentos se renderizan a PDF en una ventana descartable **sin JavaScript y sin acceso a la red**.
 - Garlic nunca ejecuta ni abre `.exe`, scripts o accesos directos.
+- **Dependencias bloqueadas y verificadas:** versiones exactas con hash, sin scripts de instalación no aprobados, sin versiones publicadas hace menos de 3 días y con auditoría en el CI. Detalles en [SECURITY.md](SECURITY.md#dependencies-and-supply-chain).
 
 Detalles, modelo de amenazas y cómo informar de una vulnerabilidad: [SECURITY.md](SECURITY.md).
 
@@ -204,7 +205,9 @@ Detalles, modelo de amenazas y cómo informar de una vulnerabilidad: [SECURITY.m
 
 ```text
 garlic/
-├─ package.json            Dependencias y scripts (npm start, test, package…)
+├─ package.json            Dependencias exactas y scripts (pnpm start, test, package…)
+├─ pnpm-lock.yaml         Versiones y hashes bloqueados de todas las dependencias
+├─ pnpm-workspace.yaml    Política de seguridad de pnpm (scripts, antigüedad mínima…)
 ├─ src/
 │  ├─ main/                Proceso principal de Electron (Node.js)
 │  │  ├─ index.js            Arranque: instancia única, bandeja, ventanas, atajo
@@ -243,18 +246,18 @@ Descripción técnica completa: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 ## Desarrollo
 
 ```bash
-npm install
-npm start               # ejecutar
-npm run lint            # ESLint
-npm run check           # sintaxis, páginas, CSP y traducciones
-npm test                # pruebas unitarias
-npm run test:e2e        # pruebas de extremo a extremo (abre la app de verdad, ~2 min)
-npm run verify          # todo lo anterior
-npm run screenshots     # regenerar docs/img
-npm run notices         # regenerar THIRD_PARTY_NOTICES.md
+pnpm install --frozen-lockfile
+pnpm start               # ejecutar
+pnpm run lint            # ESLint
+pnpm run check           # sintaxis, páginas, CSP y traducciones
+pnpm test                # pruebas unitarias
+pnpm run test:e2e        # pruebas de extremo a extremo (abre la app de verdad, ~2 min)
+pnpm run verify          # todo lo anterior
+pnpm run screenshots     # regenerar docs/img
+pnpm run notices         # regenerar THIRD_PARTY_NOTICES.md
 ```
 
-**Añadir o corregir un idioma:** el español es el idioma de origen (el propio texto es la clave). Edita [`src/shared/i18n-en.js`](src/shared/i18n-en.js) o añade otro diccionario siguiendo ese formato; `npm run i18n:harvest` lista todas las cadenas visibles y `npm run test:e2e` falla si queda texto sin traducir.
+**Añadir o corregir un idioma:** el español es el idioma de origen (el propio texto es la clave). Edita [`src/shared/i18n-en.js`](src/shared/i18n-en.js) o añade otro diccionario siguiendo ese formato; `pnpm run i18n:harvest` lista todas las cadenas visibles y `pnpm run test:e2e` falla si queda texto sin traducir.
 
 Guía de contribución: [CONTRIBUTING.md](CONTRIBUTING.md).
 
@@ -262,8 +265,8 @@ Guía de contribución: [CONTRIBUTING.md](CONTRIBUTING.md).
 
 | Síntoma | Qué hacer |
 |---|---|
-| Windows bloquea el `.exe` (Control Inteligente de Aplicaciones) | Usa la carpeta portable con el `electron.exe` oficial (no empaquetes con herramientas que lo reescriban) o ejecuta desde el código con `npm start`. |
-| «ffmpeg bloqueado / no se pudo iniciar» | Un antivirus o SAC bloqueó `node_modules/ffmpeg-static/ffmpeg.exe`. Permítelo o reinstala (`npm rebuild ffmpeg-static`). |
+| Windows bloquea el `.exe` (Control Inteligente de Aplicaciones) | Usa la carpeta portable con el `electron.exe` oficial (no empaquetes con herramientas que lo reescriban) o ejecuta desde el código con `pnpm start`. |
+| «ffmpeg bloqueado / no se pudo iniciar» | Un antivirus o SAC bloqueó `node_modules/ffmpeg-static/ffmpeg.exe`. Permítelo o reinstala (`pnpm rebuild ffmpeg-static`). |
 | Alt + clic no abre la rueda | Comprueba que el pill de la barra lateral dice *Atajo activo*; el archivo debe estar en una ventana del Explorador o en el Escritorio. Prueba otra combinación en *Atajo*. |
 | La rueda se queda en pantalla | Se cierra con clic fuera, Esc o a los 12 s de inactividad. Si no, abre un *issue* indicando tu sistema. |
 | El PDF de un `.md` no muestra una imagen | Las rutas relativas se resuelven desde la carpeta del `.md`; las imágenes remotas (`https://`) se bloquean a propósito (sin red). |

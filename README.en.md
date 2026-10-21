@@ -63,7 +63,7 @@ You can also drop a file on the window, use **Choose file…**, or open one from
 
 ### Requirements
 
-- **Node.js 20 or newer** (only for options B, C and D; not needed for the zip in Option A) — <https://nodejs.org>
+- **Node.js 20.19 or newer** and **pnpm 11** (only for options B, C and D; not needed for the zip in Option A) — <https://nodejs.org>. Install pnpm with `npm install -g pnpm` (or `corepack enable`).
 - Internet access **while installing** (Electron and ffmpeg are downloaded); it works offline afterwards.
 - Windows 10/11 (see [platform support](#platform-support) for other systems).
 
@@ -86,8 +86,8 @@ You can also drop a file on the window, use **Choose file…**, or open one from
 ```bat
 git clone https://github.com/Sltcrd/garlic.git
 cd garlic
-npm install
-npm start
+pnpm install --frozen-lockfile
+pnpm start
 ```
 
 **PowerShell**
@@ -95,8 +95,8 @@ npm start
 ```powershell
 git clone https://github.com/Sltcrd/garlic.git
 Set-Location garlic
-npm install
-npm start
+pnpm install --frozen-lockfile
+pnpm start
 ```
 
 **Bash (macOS / Linux / Git Bash)**
@@ -104,20 +104,20 @@ npm start
 ```bash
 git clone https://github.com/Sltcrd/garlic.git
 cd garlic
-npm install
-npm start
+pnpm install --frozen-lockfile
+pnpm start
 ```
 
-`npm install` downloads Electron, ffmpeg and the other dependencies (≈ 600 MB). If the Electron download fails, run `node node_modules/electron/install.js` and then `npm start` again.
+`pnpm install --frozen-lockfile` installs **exactly** the versions in `pnpm-lock.yaml` (≈ 600 MB) and runs no dependency scripts except those of three approved packages (ffmpeg and the click hook); see [Dependencies and supply chain](SECURITY.md#dependencies-and-supply-chain). Electron is downloaded the first time you start it; if that fails, run `node node_modules/electron/install.js` and then `pnpm start` again.
 
-To start **hidden in the tray**: `npm run start:hidden`.
+To start **hidden in the tray**: `pnpm run start:hidden`.
 
 ### Option C — Build your own portable folder (optional)
 
 ```bash
-npm install
-npm run package          # creates out/Garlic-<platform>-<arch>/
-npm run package:zip      # also creates the .zip
+pnpm install --frozen-lockfile
+pnpm run package          # creates out/Garlic-<platform>-<arch>/
+pnpm run package:zip      # also creates the .zip
 ```
 
 On Windows run `out\Garlic-win32-x64\Garlic.vbs`.
@@ -127,7 +127,7 @@ On Windows run `out\Garlic-win32-x64\Garlic.vbs`.
 ### Option D — Command line
 
 ```bash
-npm install -g .         # from the project folder
+pnpm link --global         # from the project folder
 garlic                   # start Garlic
 garlic "C:\photos\a.png" # open the wheel for that file (reuses the running instance)
 ```
@@ -197,6 +197,7 @@ Settings are stored as JSON in the user data folder:
 - Files are never uploaded. Results are saved **next to the original** (and you can move them from the card).
 - Web windows are **isolated** (no Node.js, *sandbox* and *context isolation*) and the main process only serves files **you chose**; it validates paths, settings and ffmpeg options. Documents are rendered to PDF in a disposable window **with no JavaScript and no network**.
 - Garlic never runs or opens `.exe` files, scripts or shortcuts.
+- **Locked and verified dependencies:** exact versions with hashes, no unapproved install scripts, nothing published less than 3 days ago, and an audit in CI. Details in [SECURITY.md](SECURITY.md#dependencies-and-supply-chain).
 
 Details, threat model and how to report a vulnerability: [SECURITY.md](SECURITY.md).
 
@@ -204,7 +205,9 @@ Details, threat model and how to report a vulnerability: [SECURITY.md](SECURITY.
 
 ```text
 garlic/
-├─ package.json            Dependencies and scripts (npm start, test, package…)
+├─ package.json            Exact dependencies and scripts (pnpm start, test, package…)
+├─ pnpm-lock.yaml         Locked versions and hashes of every dependency
+├─ pnpm-workspace.yaml    pnpm security policy (scripts, minimum release age…)
 ├─ src/
 │  ├─ main/                Electron main process (Node.js)
 │  │  ├─ index.js            Startup: single instance, tray, windows, shortcut
@@ -243,18 +246,18 @@ Full technical description: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 ## Development
 
 ```bash
-npm install
-npm start               # run
-npm run lint            # ESLint
-npm run check           # syntax, pages, CSP and translations
-npm test                # unit tests
-npm run test:e2e        # end-to-end tests (launch the real app, ~2 min)
-npm run verify          # all of the above
-npm run screenshots     # regenerate docs/img
-npm run notices         # regenerate THIRD_PARTY_NOTICES.md
+pnpm install --frozen-lockfile
+pnpm start               # run
+pnpm run lint            # ESLint
+pnpm run check           # syntax, pages, CSP and translations
+pnpm test                # unit tests
+pnpm run test:e2e        # end-to-end tests (launch the real app, ~2 min)
+pnpm run verify          # all of the above
+pnpm run screenshots     # regenerate docs/img
+pnpm run notices         # regenerate THIRD_PARTY_NOTICES.md
 ```
 
-**Adding or fixing a language:** Spanish is the source language (the text itself is the key). Edit [`src/shared/i18n-en.js`](src/shared/i18n-en.js) or add another dictionary following that format; `npm run i18n:harvest` lists every visible string and `npm run test:e2e` fails if text is left untranslated.
+**Adding or fixing a language:** Spanish is the source language (the text itself is the key). Edit [`src/shared/i18n-en.js`](src/shared/i18n-en.js) or add another dictionary following that format; `pnpm run i18n:harvest` lists every visible string and `pnpm run test:e2e` fails if text is left untranslated.
 
 Contribution guide: [CONTRIBUTING.md](CONTRIBUTING.md).
 
@@ -262,8 +265,8 @@ Contribution guide: [CONTRIBUTING.md](CONTRIBUTING.md).
 
 | Symptom | What to do |
 |---|---|
-| Windows blocks the `.exe` (Smart App Control) | Use the portable folder with the official `electron.exe` (don't package with tools that rewrite it) or run from source with `npm start`. |
-| "ffmpeg blocked / could not start" | An antivirus or SAC blocked `node_modules/ffmpeg-static/ffmpeg.exe`. Allow it or reinstall (`npm rebuild ffmpeg-static`). |
+| Windows blocks the `.exe` (Smart App Control) | Use the portable folder with the official `electron.exe` (don't package with tools that rewrite it) or run from source with `pnpm start`. |
+| "ffmpeg blocked / could not start" | An antivirus or SAC blocked `node_modules/ffmpeg-static/ffmpeg.exe`. Allow it or reinstall (`pnpm rebuild ffmpeg-static`). |
 | Alt + click does not open the wheel | Check that the sidebar pill says *Shortcut active*; the file must be in an Explorer window or on the Desktop. Try another combination under *Shortcut*. |
 | The wheel stays on screen | It closes on outside click, Esc, or after 12 s idle. If not, open an issue with your system details. |
 | A `.md` PDF is missing an image | Relative paths resolve from the `.md` folder; remote (`https://`) images are blocked on purpose (no network). |

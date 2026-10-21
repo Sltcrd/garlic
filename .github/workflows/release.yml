@@ -7,27 +7,43 @@ on:
     tags: ['v*']
   workflow_dispatch:
 
+# Nothing can write by default; only the job that publishes gets contents: write.
+permissions:
+  contents: read
+
 jobs:
   windows:
     runs-on: windows-latest
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 22
-          cache: npm
-      - run: npm ci
-      - run: npm run package -- --zip
-      - uses: actions/upload-artifact@v7
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run package --zip
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: Garlic-win32-x64
           path: out/*.zip
+      # SHA-256 of the zip, published next to it so downloads can be verified.
+      - if: startsWith(github.ref, 'refs/tags/')
+        shell: bash
+        run: |
+          cd out
+          sha256sum Garlic-win32-x64.zip > Garlic-win32-x64.zip.sha256
+          cat Garlic-win32-x64.zip.sha256
       - if: startsWith(github.ref, 'refs/tags/')
         run: node scripts/release-notes.js ${{ github.ref_name }} > release-notes.md
       - if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v3
+        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
         with:
-          files: out/*.zip
+          files: |
+            out/Garlic-win32-x64.zip
+            out/Garlic-win32-x64.zip.sha256
           body_path: release-notes.md

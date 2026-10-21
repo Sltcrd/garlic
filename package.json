@@ -16,7 +16,8 @@
     "url": "https://github.com/Sltcrd/garlic/issues"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=20.19",
+    "pnpm": ">=11"
   },
   "scripts": {
     "start": "electron .",
@@ -25,8 +26,8 @@
     "check": "node scripts/check.js",
     "test": "node scripts/run-tests.js unit",
     "test:e2e": "node scripts/run-tests.js e2e",
-    "verify": "npm run lint && npm run check && npm test && npm run test:e2e",
-    "audit:prod": "npm audit --omit=dev",
+    "verify": "pnpm run lint && pnpm run check && pnpm test && pnpm run test:e2e",
+    "audit:prod": "pnpm audit --prod",
     "notices": "node scripts/notices.js",
     "icons": "electron scripts/make-icons.js",
     "i18n:harvest": "node scripts/i18n-harvest.js --out i18n-keys.json",
@@ -35,29 +36,27 @@
     "package:zip": "node scripts/package.js --zip"
   },
   "dependencies": {
-    "@breezystack/lamejs": "^1.2.7",
-    "ffmpeg-static": "^5.3.0",
-    "heic2any": "^0.0.4",
-    "jspdf": "^4.2.1",
-    "jszip": "^3.10.2",
-    "mammoth": "^1.13.0",
-    "marked": "^18.1.1",
-    "pdfjs-dist": "^6.4.299",
-    "uiohook-napi": "^1.5.5",
-    "utif": "^3.1.0",
+    "@breezystack/lamejs": "1.2.7",
+    "ffmpeg-static": "5.3.0",
+    "heic2any": "0.0.4",
+    "jspdf": "4.2.1",
+    "jszip": "3.10.2",
+    "mammoth": "1.13.0",
+    "marked": "18.1.1",
+    "pdfjs-dist": "6.4.299",
+    "uiohook-napi": "1.5.5",
+    "utif": "3.1.0",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.5",
-    "electron": "^44.9.3",
-    "eslint": "^9.39.5",
-    "globals": "^17.13.0",
-    "pptxgenjs": "^4.0.1"
-  },
-  "overrides": {
-    "sprintf-js": "^1.1.3"
+    "@eslint/js": "9.39.5",
+    "electron": "44.9.0",
+    "eslint": "9.39.5",
+    "globals": "17.13.0",
+    "pptxgenjs": "4.0.1"
   },
   "bin": {
     "garlic": "bin/garlic.js"
-  }
+  },
+  "packageManager": "pnpm@11.7.0"
 }

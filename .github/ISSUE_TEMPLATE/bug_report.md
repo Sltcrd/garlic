@@ -9,7 +9,7 @@ about: Something does not work
 
 **Environment**
 - OS and version:
-- Garlic version / install method (portable, npm start):
+- Garlic version / install method (portable, pnpm start):
 - File type involved:
 
 **Logs or screenshots**
