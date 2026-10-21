@@ -83,3 +83,11 @@ test('an available update shows the indicator and its release notes; turning the
   await waitFor(() => page.eval(`document.querySelector('#updbtn').hidden`), { what: 'indicator hidden when the check is off' });
   await page.eval(`nat.cfgSet({ updates: true })`);
 });
+
+test('the shortcut reports "starting" until its file detector is ready, and the app shows it', async () => {
+  const page = await app.page('app');
+  const first = JSON.parse(await page.eval(`nat.hookStatus().then(JSON.stringify)`));
+  assert.equal(typeof first.starting, 'boolean');
+  await waitFor(() => page.eval(`nat.hookStatus().then(s => s.on && !s.starting)`), { what: 'file detector ready', timeout: 60000 });
+  await waitFor(() => page.eval(`/activo|active/i.test(document.querySelector('#status').textContent)`), { what: 'status pill' });
+});

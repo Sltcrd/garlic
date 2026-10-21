@@ -8,4 +8,4 @@ const impl = process.platform === 'win32' ? require('./win32')
   : process.platform === 'darwin' ? require('./darwin')
     : { name: process.platform, supported: false, start() { }, stop() { }, resolve: async () => '' };
 
-module.exports = impl;
+module.exports = Object.assign({ isReady: () => true }, impl);   // isReady: has the resolver finished starting?
