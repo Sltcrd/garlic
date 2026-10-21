@@ -1,11 +1,11 @@
 # Changelog
 
-## Unreleased
+## 1.3.0
 
-- **Supply-chain hardening:** the project now uses pnpm with exact, hash-locked versions, no unapproved dependency scripts, a 3-day minimum release age and a trust policy (see SECURITY.md). Dependabot waits 7 days before proposing updates. CI uses least-privilege permissions, commit-pinned actions and a high-severity audit gate.
-- The unused native `@napi-rs/canvas` package (about 12 platform binaries) is no longer shipped; the zip is about 15 MB smaller.
-- Releases publish a SHA-256 file next to the zip.
-- Electron 44.9.0 (was 44.9.3): the newest 3 versions were younger than the minimum release age.
+- **Safer builds:** every library Garlic uses is now locked to an exact, verified version, and a new library release is not accepted until it has been public for 3 days. Details in SECURITY.md.
+- **Smaller download:** about 15 MB less, by removing a native component Garlic did not use.
+- **Verify your download:** each release now includes a `.sha256` file with the checksum of the zip.
+- Under the hood: the project builds with pnpm, ESLint 10 and Electron 44.9.0, and the CI is hardened (commit-pinned actions, least-privilege permissions, vulnerability gate).
 
 ## 1.2.3
 
