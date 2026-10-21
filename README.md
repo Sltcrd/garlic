@@ -57,6 +57,10 @@ Mantén una tecla, haz clic sobre un archivo y elige a qué formato convertirlo,
 
 También puedes soltar un archivo en la ventana, usar **Elegir archivo…** o abrirlo desde la línea de comandos (`garlic archivo.pdf`).
 
+<div align="center">
+  <video src="https://github.com/user-attachments/assets/1d1ce855-d81c-4116-8478-6c83d8107a81" width="640" controls muted></video>
+</div>
+
 <p align="center"><img src="docs/img/editor-crop-zoom.png" alt="Editor con zoom" width="560">&nbsp;<img src="docs/img/job-cards.png" alt="Tarjetas de progreso" width="360"></p>
 
 ## Instalación
