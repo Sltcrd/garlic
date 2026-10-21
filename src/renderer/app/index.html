@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Garlic</title>
+<link rel="stylesheet" href="../shared/orbit.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body class="app">
+<div class="blobs"><i></i><i></i><i></i></div>
+
+<div class="win">
+  <aside class="side">
+    <div class="brand"><img class="glogo" src="../../../assets/icon.png" alt="">Garlic</div>
+
+    <div class="sec">General</div>
+    <nav>
+      <a data-page="home" class="on"><svg viewBox="0 0 24 24"><path d="M3 11L12 3l9 8M5 10v10h5v-6h4v6h5V10"/></svg>Inicio</a>
+      <a data-page="trigger"><svg viewBox="0 0 24 24"><path d="M5 3l5 15 2.5-6L19 9.5zM12.5 12L18 18"/></svg>Atajo</a>
+      <a data-page="formats"><svg viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg>Formatos</a>
+    </nav>
+    <div class="sec">Personalizar</div>
+    <nav>
+      <a data-page="look"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 000 18z" class="f"/></svg>Apariencia</a>
+      <a data-page="sound"><svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9zM16.5 8.5a5 5 0 010 7"/></svg>Sonido</a>
+      <a data-page="system"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>Sistema</a>
+    </nav>
+    <div class="grow"></div>
+    <div class="sidefoot"><span id="status" class="pill">…</span></div>
+  </aside>
+
+  <main class="main">
+    <div class="bar"><h1 id="ptitle">Inicio</h1><span class="sp"></span><button class="btn" id="pickTop">Elegir archivo…</button></div>
+    <div class="content">
+
+      <!-- INICIO -->
+      <section class="pg" data-p="home">
+        <div class="banner">
+          <div class="btxt">
+            <span class="tag">Atajo + clic</span>
+            <h2>Convierte, edita y organiza<br>cualquier archivo con un clic</h2>
+            <p>Mantén <span class="combo-keys"></span> sobre un archivo en tu gestor de archivos y elige a dónde llevarlo.</p>
+          </div>
+          <div id="pv1" class="bwheel"></div>
+        </div>
+
+        <div class="lbl">Estado</div>
+        <div class="list glass">
+          <div class="row"><i class="ico a"><svg viewBox="0 0 24 24"><path d="M5 3l5 15 2.5-6L19 9.5z"/></svg></i><div><b>Atajo</b><small><span class="combo-keys inline"></span></small></div><label class="switch"><input type="checkbox" data-cfg="hook"><span></span></label></div>
+          <div class="row"><i class="ico b"><svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9zM16.5 8.5a5 5 0 010 7"/></svg></i><div><b>Sonido</b><small>Clic y al pasar el cursor</small></div><label class="switch"><input type="checkbox" data-cfg="sound"><span></span></label></div>
+          <div class="row"><i class="ico c"><svg viewBox="0 0 24 24"><path d="M12 3v9M6.5 6.5a8 8 0 1011 0"/></svg></i><div><b>Iniciar con el sistema</b><small>En segundo plano, en la bandeja</small></div><label class="switch"><input type="checkbox" data-cfg="autostart"><span></span></label></div>
+        </div>
+
+        <div class="lbl">Modos de la rueda</div>
+        <div class="cards">
+          <div class="card glass"><i class="ico a"><svg viewBox="0 0 24 24"><path d="M7 7h10l-3-3M17 17H7l3 3"/></svg></i><b>Convertir</b><p>Imágenes, documentos, hojas de cálculo, audio, subtítulos y archivos comprimidos.</p><div class="cf"><span>Más de 60 salidas</span></div></div>
+          <div class="card glass"><i class="ico b"><svg viewBox="0 0 24 24"><path d="M5 19l1-4L17 4l3 3L9 18zM14 7l3 3"/></svg></i><b>Editar</b><p>Recortar, quitar fondo, borrador, fondo, comprimir, censurar y anotar imágenes.</p><div class="cf"><span>8 herramientas</span></div></div>
+          <div class="card glass"><i class="ico c"><svg viewBox="0 0 24 24"><path d="M4 7h6l2 2h8v10H4z"/></svg></i><b>Acciones</b><p>Copiar ruta, mostrar, abrir terminal, copiar o mover a… para cualquier archivo.</p><div class="cf"><span>Funciona con todo</span></div></div>
+        </div>
+      </section>
+
+      <!-- ATAJO -->
+      <section class="pg" data-p="trigger" hidden>
+        <div class="panel glass">
+          <h3>Combinación de teclas</h3>
+          <p class="sub">Elige qué mantener pulsado al hacer clic sobre un archivo para abrir la rueda.</p>
+          <div class="mods">
+            <label class="orb"><input type="checkbox" data-mod="ctrl"><b>Ctrl</b></label>
+            <label class="orb"><input type="checkbox" data-mod="shift"><b>Shift</b></label>
+            <label class="orb"><input type="checkbox" data-mod="alt"><b>Alt</b></label>
+            <label class="orb"><input type="checkbox" data-mod="meta"><b>Win</b></label>
+            <select id="cbtn"><option value="1">Clic izquierdo</option><option value="3">Clic central</option><option value="2">Clic derecho</option></select>
+            <button class="btn ghost" id="rcombo">Restablecer</button>
+          </div>
+          <p id="cwarn" class="hint"></p>
+          <div class="keys"><span class="combo-keys"></span></div>
+        </div>
+        <div class="panel glass">
+          <h3>Abrir sin atajo</h3>
+          <p class="sub">Para abrir un archivo sin el atajo, usa «Elegir archivo…» arriba o suéltalo aquí.</p>
+          <div id="drop">Suelta aquí un archivo para abrir la rueda</div>
+        </div>
+      </section>
+
+      <!-- FORMATOS -->
+      <section class="pg" data-p="formats" hidden>
+        <div class="fgrid">
+          <div class="panel glass"><h3>Imágenes</h3><div class="tags"><i>JPG</i><i>PNG</i><i>WEBP</i><i>BMP</i><i>TIFF</i><i>SVG</i><i>ICO</i><i>GIF</i><i>AVIF</i><i>HEIC</i></div></div>
+          <div class="panel glass"><h3>Documentos</h3><div class="tags"><i>PDF</i><i>DOCX</i><i>PPTX</i><i>RTF</i><i>HTML</i><i>MD</i><i>TXT</i><i>EPUB</i></div></div>
+          <div class="panel glass"><h3>Hojas de cálculo</h3><div class="tags"><i>XLSX</i><i>XLS</i><i>ODS</i><i>CSV</i><i>TSV</i><i>JSON</i></div></div>
+          <div class="panel glass"><h3>Audio y vídeo</h3><div class="tags"><i>MP3</i><i>WAV</i><i>OGG</i><i>FLAC</i><i>M4A</i><i>MP4</i><i>MOV</i><i>WEBM</i></div><p class="sub">El vídeo se convierte a audio o a una imagen.</p></div>
+          <div class="panel glass"><h3>Subtítulos</h3><div class="tags"><i>SRT</i><i>VTT</i><i>TXT</i></div></div>
+          <div class="panel glass"><h3>Archivos</h3><div class="tags"><i>ZIP</i><i>TAR</i><i>GZ</i><i>TGZ</i></div><p class="sub">Cualquier archivo se puede pasar a ZIP o GZ.</p></div>
+        </div>
+      </section>
+
+      <!-- APARIENCIA -->
+      <section class="pg" data-p="look" hidden>
+        <div class="split">
+          <div>
+            <div class="panel glass">
+              <h3>Tema y material</h3>
+              <div class="fr"><label>Tema</label><div class="seg" data-seg="theme"><button data-v="dark">Oscuro</button><button data-v="light">Claro</button><button data-v="auto">Auto</button></div></div>
+              <div class="fr winonly"><label>Material</label><div class="seg" data-seg="material"><button data-v="acrylic">Acrílico</button><button data-v="mica">Mica</button><button data-v="none">Sólido</button></div></div>
+              <div class="fr"><label>Densidad</label><div class="seg" data-seg="density"><button data-v="comfortable">Cómoda</button><button data-v="compact">Compacta</button></div></div>
+              <div class="fr"><label>Fondo animado</label><label class="switch"><input type="checkbox" data-cfg="blobs"><span></span></label></div>
+            </div>
+            <div class="panel glass">
+              <h3>Color de acento</h3>
+              <div class="swatches" id="swatches"></div>
+              <div class="fr"><label>Personalizado</label><input type="color" data-cfg="ac"></div>
+            </div>
+            <div class="panel glass">
+              <h3>Cristal</h3>
+              <div class="fr"><label>Transparencia</label><input type="range" data-cfg="glass" min="0" max="100"><span class="val" data-val="glass" data-unit="%"></span></div>
+              <div class="fr"><label>Desenfoque</label><input type="range" data-cfg="blur" min="0" max="60"><span class="val" data-val="blur" data-unit="px"></span></div>
+              <div class="fr"><label>Saturación</label><input type="range" data-cfg="sat" min="100" max="260"><span class="val" data-val="sat" data-unit="%"></span></div>
+              <div class="fr"><label>Esquinas</label><input type="range" data-cfg="rd" min="0" max="48"><span class="val" data-val="rd" data-unit="px"></span></div>
+              <div class="fr"><label>Tamaño de interfaz</label><input type="range" data-cfg="scale" min="85" max="125"><span class="val" data-val="scale" data-unit="%"></span></div>
+            </div>
+            <div class="panel glass">
+              <h3>Rueda flotante</h3>
+              <div class="fr"><label>Fondo de la rueda</label><input type="color" data-cfg="bg"></div>
+              <div class="fr"><label>Opacidad</label><input type="range" data-cfg="op" min="0" max="95"><span class="val" data-val="op" data-unit="%"></span></div>
+              <div class="fr"><label>Color de las fichas</label><input type="color" data-cfg="sg"></div>
+            </div>
+            <button class="btn ghost" id="rap">Restablecer apariencia</button>
+          </div>
+          <div class="sticky">
+            <div class="panel glass prevp"><h3>Vista previa</h3><div id="pv2" class="bwheel sm"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SONIDO -->
+      <section class="pg" data-p="sound" hidden>
+        <div class="panel glass">
+          <h3>Sonido</h3>
+          <div class="fr"><label>Clic en todas las acciones</label><label class="switch"><input type="checkbox" data-cfg="sound"><span></span></label></div>
+          <div class="fr"><label>Al pasar el cursor por las opciones</label><label class="switch"><input type="checkbox" data-cfg="hoverSound"><span></span></label></div>
+          <div class="fr"><label>Volumen</label><input type="range" data-cfg="vol" min="0" max="100"><span class="val" data-val="vol" data-unit="%"></span></div>
+          <button id="stest" class="btn">Probar sonido</button>
+        </div>
+      </section>
+
+      <!-- SISTEMA -->
+      <section class="pg" data-p="system" hidden>
+        <div class="panel glass">
+          <h3>Idioma</h3>
+          <div class="fr"><label>Idioma de la interfaz</label><div class="seg" data-seg="lang"><button data-v="auto">Automático</button><button data-v="es">Español</button><button data-v="en">English</button></div></div>
+        </div>
+        <div class="panel glass">
+          <h3>Sistema</h3>
+          <div class="fr"><label>Mostrar progreso y opciones al terminar</label><label class="switch"><input type="checkbox" data-cfg="jobCard"><span></span></label></div>
+          <div class="fr"><label>Iniciar con el sistema (en segundo plano)</label><label class="switch"><input type="checkbox" data-cfg="autostart"><span></span></label></div>
+          <p class="sub">Cerrar esta ventana no detiene el widget: sigue activo en la bandeja del sistema.</p>
+          <p class="sub" id="platnote" hidden></p>
+          <button id="squit" class="btn danger">Salir de la aplicación</button>
+        </div>
+        <div class="panel glass">
+          <h3>Acerca de</h3>
+          <p class="sub" id="about"></p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+<div id="caption">
+  <button id="bmin" title="Minimizar"><svg viewBox="0 0 10 10"><path d="M0 5.5H10"/></svg></button>
+  <button id="bmax" title="Maximizar"><svg viewBox="0 0 10 10" id="icMax"><rect x=".5" y=".5" width="9" height="9" rx="1"/></svg><svg viewBox="0 0 10 10" id="icRes" hidden><rect x="2.2" y=".5" width="7.3" height="7.3" rx="1"/><path d="M.5 2.6V9a.9.9 0 0 0 .9.9h6.2"/></svg></button>
+  <button id="bclose" class="x" title="Cerrar (sigue en la bandeja)"><svg viewBox="0 0 10 10"><path d="M.5.5l9 9M9.5.5l-9 9"/></svg></button>
+</div>
+<script src="../../shared/i18n-en.js"></script>
+<script src="../../shared/i18n.js"></script>
+<script src="../shared/shared.js"></script>
+<script src="../shared/i18n-dom.js"></script>
+<script src="../shared/orbit.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

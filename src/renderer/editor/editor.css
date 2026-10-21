@@ -1,0 +1,61 @@
+:root{--acc:#b8607a;--atx:#fff;--bgc:rgba(42,26,31,.55);--bgc3:rgba(42,26,31,.97);--rad:20px}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--bgc3);color:#f5efee;font:13.5px/1.45 "SF Pro Text","Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;user-select:none}
+button{font:inherit;cursor:pointer;border:0}
+
+#ed{display:flex;flex-direction:column;height:100vh}
+#edbar{display:flex;align-items:center;gap:10px;height:46px;flex:none;padding:0 150px 0 14px;-webkit-app-region:drag;border-bottom:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03)}
+#edbar button,#edbar input,#edbar select,#edbar #zoomtools{-webkit-app-region:no-drag}
+#edbar .glogo{width:22px;height:22px}
+#ptitle,#edbar .glogo{font-weight:600;font-size:14px;letter-spacing:-.01em;-webkit-app-region:drag}
+.sp{flex:1;height:100%;-webkit-app-region:drag}
+#zoomtools{display:flex;gap:2px;padding:2px;border-radius:10px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08)}
+#zoomtools button{background:transparent;color:#fff;height:26px;min-width:28px;padding:0 9px;border-radius:8px;font-weight:500;font-size:12.5px}
+#zoomtools button:hover{background:rgba(255,255,255,.14)}
+#zoomtools button.on{background:var(--acc);color:var(--atx)}
+#zv{min-width:54px;font-variant-numeric:tabular-nums}
+
+/* canvas / video area: fills the window and is zoomable */
+#pstage{position:relative;flex:1;min-height:160px;margin:12px 14px 0;border-radius:14px;overflow:hidden;background:rgba(255,255,255,.07);cursor:default}
+#pstage.checker{background:repeating-conic-gradient(#9996 0 25%,#fff4 0 50%) 0 0/16px 16px}
+#pstage.pan,#pstage.pan #pc{cursor:grab}#pstage.panning,#pstage.panning #pc{cursor:grabbing}
+#pc{position:absolute;left:0;top:0;transform-origin:0 0;touch-action:none;cursor:crosshair;box-shadow:0 4px 18px rgba(0,0,0,.35)}
+#pm{position:absolute;inset:10px;width:calc(100% - 20px);height:calc(100% - 20px);object-fit:contain;border-radius:8px;background:#000}
+#pstage.audio{flex:0 0 130px;min-height:130px}
+
+#pctl{flex:none;max-height:40%;overflow:auto;margin:10px 14px 0;padding:10px 14px;border-radius:14px;background:rgba(0,0,0,.25)}
+#pctl .row{display:flex;align-items:center;gap:10px;margin:7px 0;font-size:12.5px}
+#pctl .row>label{width:84px;opacity:.9;flex:none}
+#pctl input[type=range]{flex:1;accent-color:var(--acc)}
+#pctl .val{width:48px;text-align:right;font-size:12px}
+#pctl input[type=number],#pctl input[type=text],#pctl select{background:rgba(255,255,255,.92);color:#222;border:0;border-radius:8px;padding:5px 8px;font:inherit;width:92px}
+#pctl input[type=text]{width:100%}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0}
+.chips button{background:rgba(255,255,255,.13);color:#fff;border-radius:8px;padding:5px 12px;font-size:12.5px;font-weight:500;transition:.12s}
+.chips button:hover{background:rgba(255,255,255,.22)}
+.chips button.on{background:var(--acc);color:var(--atx);font-weight:600}
+.sw{display:flex;gap:7px;flex-wrap:wrap;margin:6px 0}
+.sw i{width:30px;height:30px;border-radius:8px;cursor:pointer;border:2px solid transparent}
+.sw i.on{border-color:#fff;box-shadow:0 0 0 2px rgba(0,0,0,.35)}
+.info{font-size:12.5px;line-height:1.7}.info b{display:inline-block;width:100px;opacity:.85;font-weight:600}
+.mini{background:rgba(255,255,255,.16);color:#fff;border-radius:99px;padding:3px 10px;font-size:11.5px}
+.mini:hover{background:var(--acc);color:var(--atx)}
+
+.pfoot{display:flex;justify-content:space-between;align-items:center;flex:none;padding:12px 14px 14px}
+.ghost{background:rgba(255,255,255,.13);color:#fff;padding:8px 16px;border-radius:10px;font-weight:500;transition:.12s}.ghost:hover{background:rgba(255,255,255,.22)}
+.go{background:linear-gradient(180deg,color-mix(in srgb,var(--acc) 88%,#fff),var(--acc));color:var(--atx);font-weight:600;padding:8px 24px;border-radius:10px;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 2px 6px rgba(0,0,0,.3)}
+.go:hover{filter:brightness(1.1)}.go:disabled{opacity:.5}
+
+/* Windows-style caption buttons (after the drag regions in the DOM so clicks reach them) */
+#caption{position:fixed;top:0;right:0;z-index:50;display:flex;-webkit-app-region:no-drag}
+#caption button{width:46px;height:36px;background:transparent;color:inherit;display:flex;align-items:center;justify-content:center;cursor:default;transition:background .1s}
+#caption svg{width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:1}
+#caption svg[hidden]{display:none}
+#caption button:hover{background:rgba(128,128,128,.25)}
+#caption button.x:hover{background:#e81123;color:#fff}
+html[data-platform=darwin] #caption{display:none}
+html[data-platform=darwin] #edbar{padding-left:84px;padding-right:14px}
+
+#toast{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);background:rgba(30,20,20,.95);padding:8px 14px;border-radius:99px;z-index:60;font-size:12.5px;max-width:92%}
+#toast.er{background:#b3261e}

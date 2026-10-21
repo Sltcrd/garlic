@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: file:; media-src 'self' file: blob:; font-src 'self'; connect-src 'self' blob: data: file:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Garlic</title>
+<link rel="stylesheet" href="../shared/orbit.css">
+<link rel="stylesheet" href="wheel.css">
+</head>
+<body>
+<div id="wrap">
+  <div id="wheel"></div>
+  <div id="fname"></div>
+  <div id="modebar"><button id="mprev" title="Anterior (←)">‹</button><div id="mnm"><span id="mname"></span><span id="dots"></span></div><button id="mnext" title="Siguiente (→)">›</button></div>
+</div>
+<div id="toast" hidden></div>
+
+<!-- libraries (loaded from node_modules; no network access) -->
+<script src="../../../node_modules/jszip/dist/jszip.min.js"></script>
+<script src="../../../node_modules/jspdf/dist/jspdf.umd.min.js"></script>
+<script src="../../../node_modules/heic2any/dist/heic2any.min.js"></script>
+<script src="../../../node_modules/xlsx/dist/xlsx.full.min.js"></script>
+<script src="../../../node_modules/utif/UTIF.js"></script>
+<script src="../../../node_modules/mammoth/mammoth.browser.min.js"></script>
+<script src="../../../node_modules/marked/lib/marked.umd.js"></script>
+<script src="../../../node_modules/@breezystack/lamejs/dist/lamejs.iife.js"></script>
+<!-- Garlic -->
+<script src="../../shared/i18n-en.js"></script>
+<script src="../../shared/i18n.js"></script>
+<script src="../shared/shared.js"></script>
+<script src="../shared/i18n-dom.js"></script>
+<script src="../shared/engine.js"></script>
+<script src="../shared/orbit.js"></script>
+<script src="../shared/formats.js"></script>
+<script src="../shared/pptx.js"></script>
+<script src="../shared/stage.js"></script>
+<script src="../shared/tools.js"></script>
+<script src="wheel.js"></script>
+<script type="module" src="../shared/pdf-loader.js"></script>
+</body>
+</html>

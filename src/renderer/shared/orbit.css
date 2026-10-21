@@ -1,0 +1,33 @@
+/* Rueda Garlic: colores opacos para que siempre se lea, sea cual sea el fondo */
+.rind{fill:var(--bgc);stroke:rgba(255,255,255,.34);stroke-width:1.3;stroke-linejoin:round}
+.rind2{fill:none;stroke:rgba(255,255,255,.2);stroke-width:1;stroke-linejoin:round}
+.wd{cursor:pointer}
+.wb{transform-box:fill-box;transition:transform .14s cubic-bezier(.3,1.5,.5,1);animation:wdin .3s both;animation-delay:calc(var(--i)*30ms);filter:drop-shadow(0 2.5px 2px rgba(80,40,10,.26))}
+@keyframes wdin{from{opacity:0;transform:scale(.82)}to{opacity:1;transform:scale(1)}}
+.wp{fill:var(--wsg,#f6f0e8);stroke:var(--wsg,#f6f0e8);stroke-width:7;stroke-linejoin:round;transition:fill .12s,stroke .12s}
+.wd:hover .wb{transform:translate(var(--ox),var(--oy)) scale(1.04);filter:drop-shadow(0 0 7px var(--acc)) drop-shadow(0 3px 3px rgba(0,0,0,.3))}
+.wd:hover .wp{fill:var(--acc);stroke:var(--acc)}
+.wl{fill:var(--wtx,#2f2024);font:700 12.5px "SF Pro Display","Segoe UI Variable Display","Segoe UI",sans-serif;text-anchor:middle;dominant-baseline:middle;pointer-events:none;letter-spacing:.015em}
+.wl.s{font-size:8.2px;letter-spacing:.04em;font-weight:650}
+.wi{fill:none;stroke:var(--wtx,#2f2024);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.wi .f{fill:var(--wtx,#2f2024)}
+.wd:hover .wl{fill:var(--atx,#fff)}.wd:hover .wi{stroke:var(--atx,#fff)}.wd:hover .wi .f{fill:var(--atx,#fff)}
+/* centro: archivo seleccionado / acción bajo el cursor */
+.sheet{fill:#fffdf8;stroke:rgba(0,0,0,.14);stroke-width:1;filter:drop-shadow(0 3px 4px rgba(0,0,0,.32))}
+.gl{fill:none;stroke:#d8ccc4;stroke-width:3.2;stroke-linecap:round}
+.badge{fill:var(--acc)}
+.bt{fill:var(--atx,#fff);font:700 9px "SF Pro Display","Segoe UI",sans-serif;text-anchor:middle;dominant-baseline:middle;letter-spacing:.04em}
+.fn{fill:#5e4a50;font:600 7.6px "Segoe UI",sans-serif;text-anchor:middle}
+.thumb{pointer-events:none}.hasthumb .glyph{display:none}
+.ctrf,.ctrh{pointer-events:none}
+.ctrh{display:none}.hov .ctrh{display:block}.hov .ctrf{display:none}
+.hcard{fill:#fff;stroke:var(--acc);stroke-width:2.2;filter:drop-shadow(0 3px 5px rgba(0,0,0,.32))}
+.hc1{fill:#8a7a7e;font:600 7.4px "Segoe UI",sans-serif;letter-spacing:.09em;text-anchor:middle;text-transform:uppercase}
+.hc2{fill:#2a1a1f;font:700 15px "SF Pro Display","Segoe UI Variable Display","Segoe UI",sans-serif;text-anchor:middle;dominant-baseline:middle}
+
+/* barras de desplazamiento a juego */
+*::-webkit-scrollbar{width:10px;height:10px}
+*::-webkit-scrollbar-track{background:transparent;margin:6px 0}
+*::-webkit-scrollbar-thumb{background:rgba(255,255,255,.16);border-radius:99px;border:3px solid transparent;background-clip:padding-box;transition:background .15s}
+*::-webkit-scrollbar-thumb:hover{background:var(--acc);background-clip:padding-box}
+*::-webkit-scrollbar-corner{background:transparent}

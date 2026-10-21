@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: file:; media-src 'self' file: blob:; font-src 'self'; connect-src 'self' blob: data: file:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Garlic</title>
+<link rel="stylesheet" href="../shared/orbit.css">
+<link rel="stylesheet" href="editor.css">
+</head>
+<body class="editor">
+<div id="ed">
+  <div id="edbar">
+    <img class="glogo" src="../../../assets/icon.png" alt="">
+    <span id="ptitle"></span>
+    <span class="sp"></span>
+    <div id="zoomtools">
+      <button id="zout" title="Alejar (Ctrl −)">−</button>
+      <button id="zv" title="Alternar ajustar / 100 % (Ctrl 0 · Ctrl 1)">100%</button>
+      <button id="zin" title="Acercar (Ctrl +)">+</button>
+      <button id="zfit" title="Ajustar a la ventana (Ctrl 0)">Ajustar</button>
+      <button id="zhand" title="Mover la vista (o mantén Espacio · botón central)">Mover</button>
+    </div>
+  </div>
+
+  <div id="pstage">
+    <canvas id="pc"></canvas>
+    <video id="pm" controls hidden></video>
+  </div>
+  <div id="pctl"></div>
+  <div class="pfoot"><button id="preset" class="ghost">Restablecer</button><button id="papply" class="go">Aplicar</button></div>
+</div>
+
+<div id="caption">
+  <button id="bmin" title="Minimizar"><svg viewBox="0 0 10 10"><path d="M0 5.5H10"/></svg></button>
+  <button id="bmax" title="Maximizar"><svg viewBox="0 0 10 10" id="icMax"><rect x=".5" y=".5" width="9" height="9" rx="1"/></svg><svg viewBox="0 0 10 10" id="icRes" hidden><rect x="2.2" y=".5" width="7.3" height="7.3" rx="1"/><path d="M.5 2.6V9a.9.9 0 0 0 .9.9h6.2"/></svg></button>
+  <button id="bclose" class="x" title="Cerrar"><svg viewBox="0 0 10 10"><path d="M.5.5l9 9M9.5.5l-9 9"/></svg></button>
+</div>
+<div id="toast" hidden></div>
+
+<script src="../../../node_modules/jszip/dist/jszip.min.js"></script>
+<script src="../../../node_modules/jspdf/dist/jspdf.umd.min.js"></script>
+<script src="../../../node_modules/heic2any/dist/heic2any.min.js"></script>
+<script src="../../../node_modules/xlsx/dist/xlsx.full.min.js"></script>
+<script src="../../../node_modules/utif/UTIF.js"></script>
+<script src="../../../node_modules/mammoth/mammoth.browser.min.js"></script>
+<script src="../../../node_modules/marked/lib/marked.umd.js"></script>
+<script src="../../../node_modules/@breezystack/lamejs/dist/lamejs.iife.js"></script>
+<script src="../../shared/i18n-en.js"></script>
+<script src="../../shared/i18n.js"></script>
+<script src="../shared/shared.js"></script>
+<script src="../shared/i18n-dom.js"></script>
+<script src="../shared/engine.js"></script>
+<script src="../shared/orbit.js"></script>
+<script src="../shared/formats.js"></script>
+<script src="../shared/pptx.js"></script>
+<script src="../shared/stage.js"></script>
+<script src="../shared/tools.js"></script>
+<script src="panels.js"></script>
+<script src="erase.js"></script>
+<script src="avtools.js"></script>
+<script src="editor.js"></script>
+<script type="module" src="../shared/pdf-loader.js"></script>
+</body>
+</html>
