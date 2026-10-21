@@ -16,7 +16,8 @@ contextBridge.exposeInMainWorld('native', {
   pick: () => ipcRenderer.invoke('app:pick'), openWheel: send('app:open-wheel'),
   /* settings */
   cfgDefaults: () => ipcRenderer.invoke('cfg:defaults'), cfgGet: () => ipcRenderer.invoke('cfg:get'), cfgSet: invoke('cfg:set'), onCfg: on('cfg:update'),
-  appInfo: () => ipcRenderer.invoke('app:info'), createShortcut: w => ipcRenderer.invoke('shortcut:create', w), hookStatus: () => ipcRenderer.invoke('hook:status'), quit: () => ipcRenderer.send('app:quit'),
+  appInfo: () => ipcRenderer.invoke('app:info'), updateGet: () => ipcRenderer.invoke('update:get'), updateCheck: () => ipcRenderer.invoke('update:check'), updateOpen: () => ipcRenderer.invoke('update:open'),
+  onUpdate: cb => ipcRenderer.on('update:state', (_e, s) => cb(s)), createShortcut: w => ipcRenderer.invoke('shortcut:create', w), hookStatus: () => ipcRenderer.invoke('hook:status'), quit: () => ipcRenderer.send('app:quit'),
   /* windows */
   winCtl: send('win:ctl'), onWinState: on('win:state'),
   onWheelOpen: on('wheel:open'), wheelHide: () => ipcRenderer.send('wheel:hide'), wheelPing: () => ipcRenderer.send('wheel:ping'),
@@ -28,5 +29,5 @@ contextBridge.exposeInMainWorld('native', {
   jobStart: invoke('job:start'), jobProgress: send('job:progress'), jobDone: send('job:done'), jobError: send('job:error'), jobQuick: send('job:quick'),
   jobAction: send('job:action'), jobsSize: send('jobs:size'), jobsHover: send('jobs:hover'), onJobs: on('jobs:state'),
   /* automated tests only (the handler exists when GARLIC_TEST=1) */
-  testState: () => ipcRenderer.invoke('test:state'), testJobs: () => ipcRenderer.invoke('test:jobs')
+  testState: () => ipcRenderer.invoke('test:state'), testJobs: () => ipcRenderer.invoke('test:jobs'), testUpdate: p => ipcRenderer.invoke('test:update', p)
 });

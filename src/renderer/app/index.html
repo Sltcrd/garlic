@@ -27,7 +27,10 @@
       <a data-page="system"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>Sistema</a>
     </nav>
     <div class="grow"></div>
-    <div class="sidefoot"><span id="status" class="pill">…</span></div>
+    <div class="sidefoot">
+      <button id="updbtn" class="updbtn" hidden><svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v8M4.5 7 8 10.5 11.5 7M3 13.5h10"/></svg><span>Actualización disponible</span></button>
+      <span id="status" class="pill">…</span>
+    </div>
   </aside>
 
   <main class="main">
@@ -153,6 +156,8 @@
         <div class="panel glass">
           <h3>Sistema</h3>
           <div class="fr"><label>Mostrar progreso y opciones al terminar</label><label class="switch"><input type="checkbox" data-cfg="jobCard"><span></span></label></div>
+          <div class="fr"><label>Buscar actualizaciones al abrir (consulta GitHub)</label><label class="switch"><input type="checkbox" data-cfg="updates"><span></span></label></div>
+          <div class="fr"><label id="updstatus">Versión instalada</label><button id="updnow" class="btn">Buscar ahora</button></div>
           <div class="fr"><label>Iniciar con el sistema (en segundo plano)</label><label class="switch"><input type="checkbox" data-cfg="autostart"><span></span></label></div>
           <p class="sub">Cerrar esta ventana no detiene el widget: sigue activo en la bandeja del sistema.</p>
           <p class="sub" id="platnote" hidden></p>
@@ -170,6 +175,15 @@
 
     </div>
   </main>
+</div>
+<div id="updmodal" class="modal" hidden>
+  <div class="mbox glass" role="dialog" aria-modal="true">
+    <h3 id="updtitle"></h3>
+    <p class="sub" id="updmeta"></p>
+    <h4>Novedades</h4>
+    <pre id="updnotes"></pre>
+    <div class="mbtns"><button id="updlater" class="btn">Más tarde</button><button id="updgo" class="btn go">Descargar</button></div>
+  </div>
 </div>
 <div id="caption">
   <button id="bmin" title="Minimizar"><svg viewBox="0 0 10 10"><path d="M0 5.5H10"/></svg></button>

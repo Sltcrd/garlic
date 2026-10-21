@@ -1,5 +1,6 @@
-# Publishes the portable Windows build as a GitHub Release when a tag like v1.0.0 is pushed.
-# The zip contains the GPL ffmpeg binary, so the release notes link its source (see THIRD_PARTY_NOTICES.md).
+# Publishes the portable Windows build as a GitHub Release when a tag like v1.2.0 is pushed.
+# The notes come from the version's CHANGELOG.md section (the app's update dialog shows them) plus install steps.
+# The zip contains the GPL ffmpeg binary, so the notes link its source (see THIRD_PARTY_NOTICES.md).
 name: Release
 on:
   push:
@@ -15,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
       - run: npm ci
       - run: npm run package -- --zip
@@ -24,15 +25,9 @@ jobs:
           name: Garlic-win32-x64
           path: out/*.zip
       - if: startsWith(github.ref, 'refs/tags/')
+        run: node scripts/release-notes.js ${{ github.ref_name }} > release-notes.md
+      - if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
           files: out/*.zip
-          body: |
-            ## Garlic ${{ github.ref_name }} — Windows portable
-
-            1. Download `Garlic-win32-x64.zip`, right-click → Properties → **Unblock**, extract it, and run `Garlic.vbs`.
-            2. Windows SmartScreen may warn because the build is **not code-signed**: *More info → Run anyway*. Or build from source (see the README).
-
-            macOS and Linux: not packaged here (untested) — run from source.
-
-            **Licenses:** this zip includes the **ffmpeg** binary (GPL). Source: https://ffmpeg.org and https://github.com/eugeneware/ffmpeg-static. Full list: `THIRD_PARTY_NOTICES.md` inside the zip.
+          body_path: release-notes.md

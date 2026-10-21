@@ -185,7 +185,7 @@ Settings are stored as JSON in the user data folder:
 
 ## Privacy and security
 
-- **Everything happens on your machine.** No telemetry, accounts or network requests; the UI loads only local files and its CSP blocks any connection.
+- **Everything happens on your machine.** No telemetry or accounts. The UI loads only local files and its CSP blocks any connection. **The only network request** is the update check: it asks GitHub's public API for the latest version (sending none of your data) and, if there is a newer one, shows a download icon with what changed. It never downloads or installs anything by itself. Turn it off under *System → Check for updates*.
 - Files are never uploaded. Results are saved **next to the original** (and you can move them from the card).
 - Web windows are **isolated** (no Node.js, *sandbox* and *context isolation*) and the main process only serves files **you chose**; it validates paths, settings and ffmpeg options. Documents are rendered to PDF in a disposable window **with no JavaScript and no network**.
 - Garlic never runs or opens `.exe` files, scripts or shortcuts.

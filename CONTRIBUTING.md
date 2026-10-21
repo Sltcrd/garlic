@@ -25,6 +25,7 @@ npm run verify    # lint + check + unit tests + end-to-end tests
 - `npm run test:e2e` — launches the real app (`tests/e2e`); takes about two minutes and needs a desktop session.
 
 If you change dependencies run `npm run notices` and commit `THIRD_PARTY_NOTICES.md`.
+Add a line for every user-visible change to the `Unreleased` section of `CHANGELOG.md`: on release it becomes the notes shown in GitHub Releases and in the app's update dialog (`scripts/release-notes.js`).
 If you change the UI, `npm run screenshots` refreshes `docs/img`.
 
 ## Code guidelines
