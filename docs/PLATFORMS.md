@@ -3,7 +3,7 @@
 | Feature | Windows | macOS | Linux |
 |---|---|---|---|
 | Status | Developed and tested (Windows 11) | Written, **never run by the author** | Written, **never run by the author** |
-| File under the cursor | UIA + `Shell.Application` (Explorer, Desktop) | `osascript` asking Finder for the selection | Not possible in general (no common API; Wayland forbids global hooks) |
+| File under the cursor | Explorer: UIA + `Shell.Application`; Desktop: list-view hit test (`LVM_HITTEST`) | `osascript` asking Finder for the selection | Not possible in general (no common API; Wayland forbids global hooks) |
 | Global click hook | `uiohook-napi` | `uiohook-napi` — needs **Accessibility** and **Input Monitoring** permission | `uiohook-napi` works on X11 only |
 | Window material | Acrylic/Mica via `backgroundMaterial` | Vibrancy | Plain translucent colour |
 | Autostart | `setLoginItemSettings` | `setLoginItemSettings` | not implemented |

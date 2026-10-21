@@ -19,7 +19,7 @@ Garlic is an Electron app with three kinds of windows that share one preload bri
 
 ## Flow of a conversion
 
-1. The global hook sees the configured click combination and asks the OS resolver for the file under the cursor (Windows: a persistent PowerShell using UI Automation + `Shell.Application`).
+1. The global hook sees the configured click combination and asks the OS resolver for the file under the cursor (Windows: a persistent PowerShell; Explorer windows via UI Automation + `Shell.Application`, Desktop icons via a `LVM_HITTEST` / `LVM_GETITEMTEXT` query on the desktop list view).
 2. `security.grant(path)` registers the file; `windows.showWheel` opens the wheel next to the cursor and sends `wheel:open`.
 3. The wheel renderer reads the file through `native.readFile` (only granted paths), lets the user pick a target, and `shared/formats.js#produce` converts it **in the renderer** (canvas, pdf.js, mammoth, jsPDF, SheetJS…).
 4. Heavy or privileged work is delegated to main: ffmpeg (`media.js`, with `-progress` parsing), HTML→PDF (`render.js`), folder packing (`archive.js`).
