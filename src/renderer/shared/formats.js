@@ -106,7 +106,7 @@ code{background:#eff1f3;padding:.2em .4em;border-radius:6px;font:.88em Consolas,
 pre{background:#f6f8fa;padding:14px 16px;border-radius:8px;white-space:pre-wrap;word-break:break-word;border:1px solid #e3e7eb}pre code{background:none;padding:0;font-size:.9em}
 blockquote{border-left:4px solid #d0d7de;color:#59636e;margin-left:0;padding:0 1em}
 table{border-collapse:collapse;max-width:100%}td,th{border:1px solid #d0d7de;padding:6px 13px}th{background:#f6f8fa}tr:nth-child(2n) td{background:#fbfcfd}
-img{max-width:100%;max-height:245mm;width:auto;height:auto;object-fit:contain;break-inside:avoid;page-break-inside:avoid}hr{border:0;border-top:1px solid #d8dee4;margin:1.6em 0}a{color:#0969da;text-decoration:none}kbd{border:1px solid #d0d7de;border-bottom-width:2px;border-radius:5px;padding:1px 6px;font-size:.85em;background:#f6f8fa}
+img{max-width:100%;max-height:245mm;height:auto;object-fit:contain;break-inside:avoid;page-break-inside:avoid}hr{border:0;border-top:1px solid #d8dee4;margin:1.6em 0}a{color:#0969da;text-decoration:none}kbd{border:1px solid #d0d7de;border-bottom-width:2px;border-radius:5px;padding:1px 6px;font-size:.85em;background:#f6f8fa}
 input[type=checkbox]{margin-right:.5em}`;
 const PLAIN_CSS = `@page{size:A4;margin:18mm}body{font:13px/1.6 "Segoe UI",system-ui,sans-serif;color:#222;margin:0}pre{white-space:pre-wrap;word-break:break-word;font:inherit;margin:0}`;
 const escH = s => s.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));

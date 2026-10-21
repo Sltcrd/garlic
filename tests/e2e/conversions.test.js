@@ -129,3 +129,11 @@ test('Markdown → PDF never splits a tall image across two pages', async () => 
   })()`);
   assert.equal(r.filter(n => n > 500).length, 1, 'the image is drawn on exactly one page: ' + JSON.stringify(r));
 });
+
+test('Markdown → PDF keeps the size an author chose with width="…" and never enlarges small images', async () => {
+  fs.writeFileSync(path.join(dir, 'ancho.md'), '# Tamaños\n\n<img src="logo.png" width="60">\n');
+  fs.writeFileSync(path.join(dir, 'natural.md'), '# Tamaños\n\n![logo](logo.png)\n');
+  await open(path.join(dir, 'ancho.md')); const small = await pdfProbe();
+  await open(path.join(dir, 'natural.md')); const natural = await pdfProbe();
+  assert.ok(small.blue > 50 && small.blue < natural.blue / 3, `width="60" is honoured (blue pixels: ${small.blue} vs ${natural.blue} at natural size)`);
+});
