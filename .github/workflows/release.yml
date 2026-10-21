@@ -13,21 +13,21 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
       - run: npm ci
       - run: npm run package -- --zip
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: Garlic-win32-x64
           path: out/*.zip
       - if: startsWith(github.ref, 'refs/tags/')
         run: node scripts/release-notes.js ${{ github.ref_name }} > release-notes.md
       - if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           files: out/*.zip
           body_path: release-notes.md
