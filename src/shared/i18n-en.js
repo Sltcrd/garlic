@@ -1,5 +1,5 @@
 /* English translations. Keys are the Spanish source strings (see src/shared/i18n.js).
- * Check coverage with `npm run i18n:check`; collect keys from the live UI with `node scripts/i18n-harvest.js`. */
+ * Check coverage with `pnpm run check`; collect keys from the live UI with `node scripts/i18n-harvest.js`. */
 (function (root, factory) {
   if (typeof module === 'object' && module.exports) module.exports = factory();
   else root.I18N_EN = factory();

@@ -14,7 +14,7 @@ const fileActions = require('./fileactions');
 const { notify } = require('./notify');
 
 const ACTIONS = new Set(['copypath', 'reveal', 'terminal', 'copyto', 'moveto', 'open']);
-/** Login-item settings. When run from source (npm start) the app folder must be passed too, otherwise Windows would start a blank Electron. */
+/** Login-item settings. When run from source (pnpm start) the app folder must be passed too, otherwise Windows would start a blank Electron. */
 function loginItem(open) {
   const args = process.defaultApp ? [app.getAppPath(), '--hidden'] : ['--hidden'];
   return { openAtLogin: open, path: process.execPath, args };

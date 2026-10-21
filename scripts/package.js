@@ -3,8 +3,8 @@
 /**
  * Builds a portable, ready-to-run copy of Garlic for the CURRENT platform into out/Garlic-<platform>-<arch>/.
  *
- *   npm run package            build the folder
- *   npm run package -- --zip   also create a .zip next to it
+ *   pnpm run package           build the folder
+ *   pnpm run package --zip     also create a .zip next to it
  *
  * How it works: it copies the stock Electron runtime *unmodified* and puts the app (src, assets and the
  * production dependencies) in its resources/app folder. Not rewriting electron.exe matters on Windows:
@@ -33,7 +33,7 @@ const copy = (from, to) => fs.cpSync(from, to, { recursive: true, force: true })
 /* 1. the Electron runtime */
 const electronDist = path.join(ROOT, 'node_modules', 'electron', 'dist');
 if (!fs.existsSync(electronDist)) { log('downloading the Electron runtime'); run(`node "${path.join(ROOT, 'node_modules', 'electron', 'install.js')}"`); }
-if (!fs.existsSync(electronDist)) { console.error('Electron runtime not found. Run "npm install" first.'); process.exit(1); }
+if (!fs.existsSync(electronDist)) { console.error('Electron runtime not found. Run "pnpm install" first.'); process.exit(1); }
 
 fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(OUT, { recursive: true });
@@ -62,14 +62,14 @@ log('copying the application');
 fs.mkdirSync(appDir, { recursive: true });
 copy(path.join(ROOT, 'src'), path.join(appDir, 'src'));
 copy(path.join(ROOT, 'assets'), path.join(appDir, 'assets'));
-for (const f of ['LICENSE', 'THIRD_PARTY_NOTICES.md', 'package-lock.json']) if (fs.existsSync(path.join(ROOT, f))) fs.copyFileSync(path.join(ROOT, f), path.join(appDir, f));
+for (const f of ['LICENSE', 'THIRD_PARTY_NOTICES.md', 'pnpm-lock.yaml', 'pnpm-workspace.yaml']) if (fs.existsSync(path.join(ROOT, f))) fs.copyFileSync(path.join(ROOT, f), path.join(appDir, f));
 for (const f of ['LICENSE', 'THIRD_PARTY_NOTICES.md']) if (fs.existsSync(path.join(ROOT, f))) fs.copyFileSync(path.join(ROOT, f), path.join(platform === 'darwin' ? OUT : launcherDir, f));
-const slim = { ...pkg }; delete slim.devDependencies; delete slim.scripts;
+const slim = { ...pkg }; delete slim.scripts;   // devDependencies stay so the lockfile still matches; --prod below skips them
 fs.writeFileSync(path.join(appDir, 'package.json'), JSON.stringify(slim, null, 2));
 
 /* 3. production dependencies only (ffmpeg and the native hook are fetched for this platform) */
 log('installing production dependencies');
-run('npm ci --omit=dev --no-audit --no-fund', { cwd: appDir });
+run('pnpm install --frozen-lockfile --prod', { cwd: appDir });   // same lockfile and policies (no unreviewed scripts, release-age delay) as development
 
 /* 4. launchers */
 if (platform === 'win32') {

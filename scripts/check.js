@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 /**
- * Repository health check (no dependencies, run it with `npm run check`):
+ * Repository health check (no dependencies, run it with `pnpm run check`):
  *   1. every JavaScript file parses;
  *   2. every renderer page references files that exist and declares a Content-Security-Policy;
  *   3. every t('…') key used in the sources has an English translation;

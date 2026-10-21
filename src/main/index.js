@@ -1,7 +1,7 @@
 'use strict';
 /**
  * Garlic — main process entry point: single instance, tray, windows, global shortcut, IPC.
- * Run with `npm start`. See docs/ARCHITECTURE.md for the overall layout.
+ * Run with `pnpm start`. See docs/ARCHITECTURE.md for the overall layout.
  */
 const { app, Tray, Menu, session, screen, BrowserWindow } = require('electron');
 const fs = require('fs');

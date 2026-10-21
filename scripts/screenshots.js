@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 'use strict';
-/** Regenerates the screenshots used by the README into docs/img/ (npm run screenshots). */
+/** Regenerates the screenshots used by the README into docs/img/ (pnpm run screenshots). */
 const fs = require('fs');
 const path = require('path');
 const { launch, makePng, tempDir, sleep, waitFor, ROOT } = require('../tests/e2e/lib');

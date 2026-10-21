@@ -7,7 +7,7 @@
 | Global click hook | `uiohook-napi` | `uiohook-napi` — needs **Accessibility** and **Input Monitoring** permission | `uiohook-napi` works on X11 only |
 | Window material | Acrylic/Mica via `backgroundMaterial` | Vibrancy | Plain translucent colour |
 | Autostart | `setLoginItemSettings` | `setLoginItemSettings` | not implemented |
-| Packaging | `npm run package` → folder + `Garlic.vbs` | `Garlic.app` copied from Electron (unsigned: right-click → Open) | folder + `garlic.sh` |
+| Packaging | `pnpm run package` → folder + `Garlic.vbs` | `Garlic.app` copied from Electron (unsigned: right-click → Open) | folder + `garlic.sh` |
 
 ## macOS
 
@@ -20,11 +20,11 @@
 
 - There is no click-on-file shortcut. Use **Choose file…**, drag and drop, or `garlic <file>` (for instance from a file manager's "Open with" or a custom action).
 - Electron's sandbox needs either unprivileged user namespaces or a setuid `chrome-sandbox`. Distributions that restrict user namespaces (e.g. Ubuntu 24.04) make the packaged build fail to start; the generated `garlic.sh` falls back to `--no-sandbox` **only in that case**, which weakens Chromium's isolation. Prefer fixing the sandbox: `sudo chown root:root chrome-sandbox && sudo chmod 4755 chrome-sandbox`.
-- Running with `npm start` uses the same Electron and the same rules.
+- Running with `pnpm start` uses the same Electron and the same rules.
 - ffmpeg comes from `ffmpeg-static`; it is a prebuilt GPL binary.
 
 ## Windows
 
-- **Smart App Control / SmartScreen:** the build uses the unmodified official `electron.exe`. If a policy still blocks it, run from source (`npm start`).
+- **Smart App Control / SmartScreen:** the build uses the unmodified official `electron.exe`. If a policy still blocks it, run from source (`pnpm start`).
 - The click resolver starts a long-lived hidden PowerShell. Execution policy is not changed; the script is passed inline.
 - A real signed installer would need a code-signing certificate and a tool such as electron-builder; contributions welcome.

@@ -1,7 +1,7 @@
 'use strict';
 /**
  * Renders assets/icon.svg to assets/icon.png (512), icon-32.png and a multi-size assets/icon.ico.
- * Run with Electron (it needs a browser engine):   npm run icons
+ * Run with Electron (it needs a browser engine):   pnpm run icons
  */
 const { app, BrowserWindow } = require('electron');
 const fs = require('fs');

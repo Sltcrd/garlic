@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- **Supply-chain hardening:** the project now uses pnpm with exact, hash-locked versions, no unapproved dependency scripts, a 3-day minimum release age and a trust policy (see SECURITY.md). Dependabot waits 7 days before proposing updates. CI uses least-privilege permissions, commit-pinned actions and a high-severity audit gate.
+- The unused native `@napi-rs/canvas` package (about 12 platform binaries) is no longer shipped; the zip is about 15 MB smaller.
+- Releases publish a SHA-256 file next to the zip.
+- Electron 44.9.0 (was 44.9.3): the newest 3 versions were younger than the minimum release age.
+
 ## 1.2.3
 
 - Fixed: right after installing, Alt + click did nothing for up to a minute with no explanation. The app now shows **Starting the shortcut…** until it is ready and a notification explains the delay if the shortcut is used early.
