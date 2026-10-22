@@ -203,7 +203,7 @@ Settings are stored as JSON in the user data folder:
 - Garlic never runs or opens `.exe` files, scripts or shortcuts.
 - **Locked and verified dependencies:** exact versions with hashes, no unapproved install scripts, nothing published less than 3 days ago, and an audit in CI. Details in [SECURITY.md](SECURITY.md#dependencies-and-supply-chain).
 
-Details, threat model and how to report a vulnerability: [SECURITY.md](SECURITY.md).
+Details, threat model and how to report a vulnerability: [SECURITY.md](SECURITY.md). Privacy policy: [PRIVACY.md](PRIVACY.md).
 
 ## Project structure
 

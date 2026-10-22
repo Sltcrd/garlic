@@ -203,7 +203,7 @@ Los ajustes se guardan en un JSON dentro de la carpeta de datos del usuario:
 - Garlic nunca ejecuta ni abre `.exe`, scripts o accesos directos.
 - **Dependencias bloqueadas y verificadas:** versiones exactas con hash, sin scripts de instalación no aprobados, sin versiones publicadas hace menos de 3 días y con auditoría en el CI. Detalles en [SECURITY.md](SECURITY.md#dependencies-and-supply-chain).
 
-Detalles, modelo de amenazas y cómo informar de una vulnerabilidad: [SECURITY.md](SECURITY.md).
+Detalles, modelo de amenazas y cómo informar de una vulnerabilidad: [SECURITY.md](SECURITY.md). Política de privacidad: [PRIVACY.es.md](PRIVACY.es.md).
 
 ## Estructura del proyecto
 
