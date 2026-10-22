@@ -33,7 +33,7 @@ Garlic puede comprobar si existe una versión nueva. Es la **única conexión de
 - Lee el número de la última versión, sus notas y la dirección de su página. No se descarga ni se instala nada automáticamente; el botón solo abre la página de la release en tu navegador.
 - **Puedes desactivarla** en *Sistema → Buscar actualizaciones*. Con ella apagada, Garlic no hace ninguna petición de red.
 
-GitHub procesa esa petición según [su propia política de privacidad](https://docs.github.com/es/site-policy/privacy-policies/github-general-privacy-statement). Hasta donde sabe el autor, Garlic no hace ninguna otra conexión de red; el código fuente es público para que cualquiera lo verifique, y las pantallas de la interfaz están limitadas por una Content Security Policy que bloquea todo acceso a la red.
+GitHub procesa esa petición según [su propia política de privacidad](https://docs.github.com/es/site-policy/privacy-policies/github-general-privacy-statement). Aparte de esta petición, no se observó ninguna conexión de red en ningún proceso de Garlic ni de Electron cuando se midió (Windows 11, Garlic 1.3.0: sockets de todos los procesos muestreados cada 0,25 s durante conversiones, el editor, el renderizado de PDF, trabajo con audio y vídeo, y en reposo). El código fuente es público para que cualquiera lo verifique, y las pantallas de la interfaz están limitadas por una Content Security Policy que bloquea todo acceso a la red.
 
 ## Sitio web y descargas
 

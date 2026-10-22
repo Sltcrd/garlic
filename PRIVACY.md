@@ -33,7 +33,7 @@ Garlic can check whether a newer version exists. This is the **only network conn
 - It reads the latest version number, its release notes and its page address. Nothing is downloaded or installed automatically; the button only opens the release page in your browser.
 - **You can turn it off** in *System → Check for updates*. When it is off, Garlic makes no network requests at all.
 
-GitHub processes that request under [its own privacy statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement). To the best of the author's knowledge, Garlic makes no other network connections; the source code is public so that anyone can verify this, and the user interface pages are restricted by a Content Security Policy that blocks all network access.
+GitHub processes that request under [its own privacy statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement). Apart from this request, no network connection was observed from any Garlic or Electron process when this was measured (Windows 11, Garlic 1.3.0: sockets of all processes sampled every 0.25 s during conversions, the editor, PDF rendering, audio and video work, and idle time). The source code is public so that anyone can verify it, and the user interface pages are restricted by a Content Security Policy that blocks all network access.
 
 ## Website and downloads
 
