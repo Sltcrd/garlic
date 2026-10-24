@@ -67,16 +67,31 @@ También puedes soltar un archivo en la ventana, usar **Elegir archivo…** o ab
 
 ### Requisitos
 
-- **Node.js 20.19 o superior** y **pnpm 11** (solo para las opciones B, C y D; no hacen falta con el zip de la Opción A) — <https://nodejs.org>. Para instalar pnpm: `npm install -g pnpm` (o `corepack enable`).
+- **Opción A (zip):** solo Windows 10/11. No necesitas instalar nada más.
+- **Opciones B, C y D (desde el código):** necesitas tres programas. Si no los tienes, instálalos una sola vez:
+
+| Programa | Para qué | Cómo instalarlo | Comprobar |
+|---|---|---|---|
+| **Git** | Descargar el código | Windows: <https://git-scm.com> o `winget install Git.Git` · macOS: `xcode-select --install` · Linux: tu gestor de paquetes | `git --version` |
+| **Node.js 20.19 o superior** (mejor la versión LTS) | Ejecutar Garlic y sus herramientas | Instalador en <https://nodejs.org> · Windows: `winget install OpenJS.NodeJS.LTS` · macOS: `brew install node` | `node --version` |
+| **pnpm 11** | Instalar las dependencias (se usa en lugar de npm) | Con Node ya instalado: `npm install -g pnpm` (o `corepack enable`) · macOS: `brew install pnpm` | `pnpm --version` (debe empezar por 11) |
+
+Después de instalarlos, **cierra y vuelve a abrir la terminal** para que los reconozca.
+
 - Conexión a internet **durante la instalación** (se descargan Electron y ffmpeg); después funciona sin conexión.
 - Windows 10/11 (ver [compatibilidad](#compatibilidad-por-sistema) para otros sistemas).
+
+> **Problemas frecuentes**
+> - *«pnpm no se reconoce como un comando»*: cierra y abre la terminal; si sigue igual, vuelve a ejecutar `npm install -g pnpm`.
+> - *En PowerShell: «la ejecución de scripts está deshabilitada» (pnpm.ps1)*: usa **CMD** en lugar de PowerShell, o ejecuta una vez `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`.
+> - *No quieres instalar Git*: en GitHub pulsa **Code → Download ZIP**, descomprime y ejecuta los comandos dentro de esa carpeta (sin el `git clone`).
 
 ### Opción A — Descargar el zip portable (Windows, sin instalar Node.js)
 
 1. Abre la página de **Releases** del repositorio: <https://github.com/Sltcrd/garlic/releases/latest>
 2. Descarga **`Garlic-win32-x64.zip`** (en *Assets*).
 3. Haz clic derecho sobre el zip → **Propiedades** → marca **Desbloquear** → Aceptar (así Windows no marca los archivos como descargados de internet).
-4. **Extrae todo** el contenido en una carpeta, por ejemplo `C:Garlic` (no ejecutes desde dentro del zip).
+4. **Extrae todo** el contenido en una carpeta, por ejemplo `C:\Garlic` (no ejecutes desde dentro del zip).
 5. Haz doble clic en **`Garlic.vbs`** (o `Garlic.bat`). Garlic aparece en la bandeja del sistema.
 
 > **Windows muestra «Windows protegió tu PC» (SmartScreen):** pulsa *Más información → Ejecutar de todos modos*. Pasa porque el programa no está firmado con un certificado de pago, no porque sea peligroso; el código completo es público y puedes compilarlo tú mismo (Opción B). Si el Control Inteligente de Aplicaciones bloquea el `.exe`, usa la Opción B.
@@ -115,6 +130,8 @@ pnpm start
 `pnpm install --frozen-lockfile` instala **exactamente** las versiones del archivo `pnpm-lock.yaml` (≈ 600 MB) y no ejecuta scripts de dependencias salvo los de tres paquetes aprobados (ffmpeg y el atajo); ver [Seguridad de las dependencias](SECURITY.md#dependencies-and-supply-chain). Electron se descarga la primera vez que arrancas; si falla, ejecuta `node node_modules/electron/install.js` y repite `pnpm start`.
 
 Para arrancar **oculto en la bandeja**: `pnpm run start:hidden`.
+
+> **macOS (experimental, probado aún poco):** al ejecutarlo, macOS pide el permiso de **Accesibilidad**. Actívalo en *Ajustes del Sistema → Privacidad y seguridad → Accesibilidad* para **Electron** (o para la Terminal desde la que lo lanzas) y, si el atajo no responde, vuelve a abrir Garlic. Más detalles en [docs/PLATFORMS.md](docs/PLATFORMS.md).
 
 ### Opción C — Generar tu propia carpeta portable (opcional)
 
