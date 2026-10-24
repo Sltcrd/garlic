@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.1
+
+- **Security:** Electron updated to 44.9.1, which blocks a set of compromised eMudhra intermediate certificates (CVE-2026-115570, GHSA-jr5w-w6x2-84p9). Garlic only makes one HTTPS request (the optional update check), so the practical risk was low, but updating is recommended.
+
 ## 1.3.0
 
 - **Safer builds:** every library Garlic uses is now locked to an exact, verified version, and a new library release is not accepted until it has been public for 3 days. Details in SECURITY.md.

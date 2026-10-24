@@ -1,7 +1,7 @@
 {
   "name": "garlic",
   "productName": "Garlic",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "Garlic: convert, edit and organize files from a small wheel that opens next to any file.",
   "main": "src/main/index.js",
   "license": "MIT",
@@ -50,7 +50,7 @@
   },
   "devDependencies": {
     "@eslint/js": "9.39.5",
-    "electron": "44.9.0",
+    "electron": "44.9.1",
     "eslint": "10.12.0",
     "globals": "17.13.0",
     "pptxgenjs": "4.0.1"
