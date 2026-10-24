@@ -274,6 +274,8 @@
     "Ruta copiada": "Path copied",
     "Salir": "Quit",
     "Salir de la aplicación": "Quit the application",
+    "Falta el permiso de Accesibilidad": "Accessibility permission needed",
+    "Ajustes del Sistema → Privacidad y seguridad → Accesibilidad: activa Garlic (o Electron si lo ejecutas desde el código). Garlic lo detecta solo.": "System Settings → Privacy & Security → Accessibility: turn on Garlic (or Electron if you run it from source). Garlic notices it by itself.",
     "Iniciando el atajo…": "Starting the shortcut…",
     "La primera vez puede tardar hasta un minuto: Windows analiza los archivos nuevos.": "The first time it can take up to a minute: Windows scans new files.",
     "Garlic se está iniciando. Prueba de nuevo en unos segundos.": "Garlic is starting up. Try again in a few seconds.",

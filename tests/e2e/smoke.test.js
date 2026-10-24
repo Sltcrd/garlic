@@ -91,3 +91,14 @@ test('the shortcut reports "starting" until its file detector is ready, and the 
   await waitFor(() => page.eval(`nat.hookStatus().then(s => s.on && !s.starting)`), { what: 'file detector ready', timeout: 60000 });
   await waitFor(() => page.eval(`/activo|active/i.test(document.querySelector('#status').textContent)`), { what: 'status pill' });
 });
+
+test('without the macOS Accessibility permission the shortcut waits and says so instead of crashing', async () => {
+  const denied = await launch({ env: { GARLIC_FAKE_ACCESSIBILITY: 'denied' } });
+  try {
+    const page = await denied.page('app');
+    const s = JSON.parse(await page.eval('nat.hookStatus().then(JSON.stringify)'));
+    assert.equal(s.needsPermission, true); assert.equal(s.on, false);
+    await waitFor(() => page.eval('/Accesibilidad|Accessibility/i.test(document.querySelector("#status").textContent)'), { what: 'permission message in the status pill' });
+    assert.equal(await page.eval('typeof nat.cfgGet'), 'function', 'the app is still alive');
+  } finally { await denied.close(); }
+});

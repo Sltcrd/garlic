@@ -1,13 +1,13 @@
 'use strict';
 /** Global mouse/keyboard hook (uiohook-napi): detects the user's click combination and asks the OS-specific resolver for the file. */
-const { screen } = require('electron');
+const { screen, systemPreferences } = require('electron');
 const config = require('./config');
 const windows = require('./windows');
 const resolver = require('./resolvers');
 const i18n = require('./i18n');
 const { notify } = require('./notify');
 
-let uio = null, running = false, initialised = false, error = '', lastStartingNote = 0;
+let uio = null, running = false, initialised = false, error = '', lastStartingNote = 0, permTimer = null, prompted = false;
 const GRACE_MS = 800;   // right after the wheel appears (for instance when the file dialog closes) focus and mouse events are still settling
 
 /* Own modifier tracking: uiohook's internal mask can miss the first press after start-up. */
@@ -40,14 +40,40 @@ function onKeyDown(k) {
 }
 function onKeyUp(k) { const m = MODIFIER[k.keycode]; if (m) delete down[m]; }
 
+/**
+ * macOS only: the global hook needs the "Accessibility" permission. Without it uiohook-napi rejects its start()
+ * promise and then aborts the whole process (SIGABRT), so the permission is checked first. (Tests can force the
+ * answer with GARLIC_TEST=1 and GARLIC_FAKE_ACCESSIBILITY=denied.)
+ */
+function needsAccessibility() {
+  if (process.env.GARLIC_TEST === '1' && process.env.GARLIC_FAKE_ACCESSIBILITY) return process.env.GARLIC_FAKE_ACCESSIBILITY === 'denied';
+  if (process.platform !== 'darwin') return false;
+  try { return !systemPreferences.isTrustedAccessibilityClient(false); } catch { return false; }
+}
+function waitForPermission() {
+  error = 'accessibility-permission';
+  if (!prompted) { prompted = true; try { systemPreferences.isTrustedAccessibilityClient(true); } catch { /* not macOS (tests) */ } }   // shows the system prompt once
+  if (!permTimer) permTimer = setInterval(() => { if (!needsAccessibility()) { clearInterval(permTimer); permTimer = null; error = ''; sync(); } }, 2000);
+}
+
 function sync() {
   if (!resolver.supported) { error = 'unsupported-platform'; return; }
   try { uio = uio || require('uiohook-napi').uIOhook; } catch (e) { error = String(e.message || e); return; }
   if (!initialised) { uio.on('keydown', onKeyDown); uio.on('keyup', onKeyUp); uio.on('mousedown', onMouse); initialised = true; }
-  if (config.get().hook && !running) { uio.start(); running = true; resolver.start(); }
-  else if (!config.get().hook && running) { uio.stop(); running = false; }
+  if (config.get().hook && !running) {
+    if (needsAccessibility()) { waitForPermission(); return; }
+    error = '';
+    try {
+      const started = uio.start();
+      if (started && typeof started.catch === 'function') started.catch(e => { running = false; error = String((e && e.message) || e); });
+      running = true; resolver.start();
+    } catch (e) { running = false; error = String((e && e.message) || e); }
+  } else if (!config.get().hook) {
+    if (permTimer) { clearInterval(permTimer); permTimer = null; error = ''; }
+    if (running) { uio.stop(); running = false; }
+  }
 }
-function stop() { try { if (running && uio) uio.stop(); } catch { /* shutting down */ } running = false; resolver.stop(); }
-const status = () => ({ on: running, starting: running && !resolver.isReady(), err: error, supported: resolver.supported, platform: process.platform });
+function stop() { if (permTimer) { clearInterval(permTimer); permTimer = null; } try { if (running && uio) uio.stop(); } catch { /* shutting down */ } running = false; resolver.stop(); }
+const status = () => ({ on: running, starting: running && !resolver.isReady(), err: error, needsPermission: error === 'accessibility-permission', supported: resolver.supported, platform: process.platform });
 
 module.exports = { sync, stop, status };

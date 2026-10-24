@@ -11,7 +11,10 @@
 
 ## macOS
 
-- Grant Garlic **Accessibility** and **Input Monitoring** in *System Settings → Privacy & Security*, otherwise the shortcut cannot be detected.
+- Grant **Accessibility** in *System Settings → Privacy & Security → Accessibility*, otherwise the shortcut cannot be detected. Until it is granted the status pill says **"Accessibility permission needed"**; Garlic notices the permission by itself (no restart needed) and starts the shortcut. If macOS also asks for **Input Monitoring** or **Automation → Finder**, allow them.
+- When running from source (`pnpm start`) the permission is requested for **Electron** (or for the terminal that launched it), not for "Garlic".
+- Versions before 1.3.1 crashed (`SIGABRT`, "Failed to enable access for assistive devices") when the Accessibility permission was missing; that case is handled now.
+- The `sandbox_extension_issue_file failed … Operation not permitted` line printed by Electron on macOS is harmless.
 - The resolver only returns the file that is *selected* in Finder, so click-to-select, then use the shortcut.
 - Unsigned apps are quarantined; use *right-click → Open* the first time, or `xattr -dr com.apple.quarantine Garlic.app`.
 - Please report what works and what doesn't.

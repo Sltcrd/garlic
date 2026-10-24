@@ -86,9 +86,9 @@ document.addEventListener('drop', e => { const f = e.dataTransfer.files[0]; if (
 /* ---------- shortcut status ---------- */
 async function refreshStatus() {
   const s = await nat.hookStatus(), el = $('#status');
-  el.textContent = s.starting ? t('Iniciando el atajo…') : s.on ? t('● Atajo activo') : !s.supported ? t('Atajo no disponible') : s.err ? t('Error del atajo') : t('Atajo desactivado');
-  el.className = 'pill' + (s.on && !s.starting ? ' on' : ''); el.title = s.err || (s.starting ? t('La primera vez puede tardar hasta un minuto: Windows analiza los archivos nuevos.') : '');
-  if (s.starting) setTimeout(refreshStatus, 2000);
+  el.textContent = s.needsPermission ? t('Falta el permiso de Accesibilidad') : s.starting ? t('Iniciando el atajo…') : s.on ? t('● Atajo activo') : !s.supported ? t('Atajo no disponible') : s.err ? t('Error del atajo') : t('Atajo desactivado');
+  el.className = 'pill' + (s.on && !s.starting ? ' on' : ''); el.title = s.needsPermission ? t('Ajustes del Sistema → Privacidad y seguridad → Accesibilidad: activa Garlic (o Electron si lo ejecutas desde el código). Garlic lo detecta solo.') : s.err || (s.starting ? t('La primera vez puede tardar hasta un minuto: Windows analiza los archivos nuevos.') : '');
+  if (s.starting || s.needsPermission) setTimeout(refreshStatus, 2000);
   const note = $('#platnote');
   if (!s.supported) { note.textContent = t('En este sistema el atajo con clic no está disponible. Usa «Elegir archivo…», arrastra un archivo aquí o ejecuta «garlic <archivo>».'); note.hidden = false; }
   else if (s.platform === 'darwin') { note.textContent = t('macOS: concede los permisos de Accesibilidad y Automatización (Finder) a Garlic para que el atajo funcione. Compatibilidad experimental.'); note.hidden = false; }

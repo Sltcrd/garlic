@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Fixed (macOS): Garlic crashed on start (`SIGABRT`) when the Accessibility permission had not been granted. It now waits, shows **"Accessibility permission needed"** in the status pill and starts the shortcut by itself as soon as the permission is granted.
+
 ## 1.3.0
 
 - **Safer builds:** every library Garlic uses is now locked to an exact, verified version, and a new library release is not accepted until it has been public for 3 days. Details in SECURITY.md.
