@@ -43,12 +43,24 @@ const launcherDir = OUT;
 if (platform === 'darwin') {
   const bundle = path.join(OUT, 'Garlic.app');
   log('copying Electron.app → Garlic.app (experimental)');
-  copy(path.join(electronDist, 'Electron.app'), bundle);
+  run(`ditto "${path.join(electronDist, 'Electron.app')}" "${bundle}"`);   // cp -R would turn the framework symlinks into copies
   appDir = path.join(bundle, 'Contents', 'Resources', 'app');
   const plist = path.join(bundle, 'Contents', 'Info.plist');
-  let xml = fs.readFileSync(plist, 'utf8');
-  xml = xml.replace(/(<key>CFBundleName<\/key>\s*<string>)[^<]*/, '$1Garlic').replace(/(<key>CFBundleDisplayName<\/key>\s*<string>)[^<]*/, '$1Garlic');
-  fs.writeFileSync(plist, xml);
+  /** PlistBuddy: set a key, adding it when it does not exist */
+  const plistSet = (key, type, value) => {
+    const quiet = { stdio: 'ignore' };
+    if (spawnSync('/usr/libexec/PlistBuddy', ['-c', `Set :${key} ${value}`, plist], quiet).status !== 0) spawnSync('/usr/libexec/PlistBuddy', ['-c', `Add :${key} ${type} ${value}`, plist], quiet);
+  };
+  plistSet('CFBundleName', 'string', 'Garlic'); plistSet('CFBundleDisplayName', 'string', 'Garlic');
+  plistSet('CFBundleIdentifier', 'string', 'com.sltcrd.garlic');           // so macOS lists the permissions under "Garlic", not under every Electron app
+  plistSet('NSAppleEventsUsageDescription', 'string', '"Garlic asks Finder which file is selected so it can open the wheel for it."');
+  try {                                                                      // app icon: assets/icon.png → .icns (macOS tools only)
+    const set = path.join(OUT, 'Garlic.iconset'); fs.mkdirSync(set);
+    for (const [size, name] of [[16, 'icon_16x16'], [32, 'icon_16x16@2x'], [32, 'icon_32x32'], [64, 'icon_32x32@2x'], [128, 'icon_128x128'], [256, 'icon_128x128@2x'], [256, 'icon_256x256'], [512, 'icon_256x256@2x'], [512, 'icon_512x512']])
+      spawnSync('sips', ['-z', String(size), String(size), path.join(ROOT, 'assets', 'icon.png'), '--out', path.join(set, name + '.png')], { stdio: 'ignore' });
+    run(`iconutil -c icns "${set}" -o "${path.join(bundle, 'Contents', 'Resources', 'electron.icns')}"`);
+    fs.rmSync(set, { recursive: true, force: true });
+  } catch { log('could not create the .icns icon; the Electron icon is kept'); }
   fs.rmSync(path.join(bundle, 'Contents', 'Resources', 'default_app.asar'), { force: true });
 } else {
   log(`copying the Electron runtime (${platform})`);
@@ -70,6 +82,20 @@ fs.writeFileSync(path.join(appDir, 'package.json'), JSON.stringify(slim, null, 2
 /* 3. production dependencies only (ffmpeg and the native hook are fetched for this platform) */
 log('installing production dependencies');
 run('pnpm install --frozen-lockfile --prod', { cwd: appDir });   // same lockfile and policies (no unreviewed scripts, release-age delay) as development
+
+/* 3b. macOS: changing the bundle broke Electron's signature, and Apple silicon will not run unsigned native code, so sign ad hoc.
+ * Ad hoc is NOT notarised: Gatekeeper still asks the user to approve the app (right-click → Open, or remove the quarantine flag). */
+if (platform === 'darwin') {
+  log('signing ad hoc (no Developer ID)');
+  (function signNative(dir) {
+    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+      const p = path.join(dir, e.name);
+      if (e.isDirectory()) signNative(p);
+      else if (e.isFile() && (e.name.endsWith('.node') || e.name.endsWith('.dylib') || e.name === 'ffmpeg')) run(`codesign --force --sign - "${p}"`);
+    }
+  })(path.join(appDir, 'node_modules'));
+  run(`codesign --force --deep --sign - "${path.join(OUT, 'Garlic.app')}"`);
+}
 
 /* 4. launchers */
 if (platform === 'win32') {
@@ -95,7 +121,11 @@ exec ./electron $FLAGS "$@"
 console.log(`\n✔ Built ${path.relative(ROOT, OUT)}`);
 console.log(platform === 'win32' ? '  Run Garlic.vbs (or Garlic.bat). Pass a file path to open the wheel for it.' : platform === 'linux' ? '  Run ./garlic.sh' : '  Open Garlic.app (right-click → Open the first time).');
 
-if (process.argv.includes('--zip')) {
+if (process.argv.includes('--zip') && platform === 'darwin') {
+  const zipPath = OUT + '.zip';
+  run(`ditto -c -k --sequesterRsrc --keepParent "${path.join(OUT, 'Garlic.app')}" "${zipPath}"`);
+  console.log('✔ ' + path.relative(ROOT, zipPath));
+} else if (process.argv.includes('--zip')) {
   const JSZip = require('jszip'), zipPath = OUT + '.zip', z = new JSZip();
   (function add(dir, base) { for (const e of fs.readdirSync(dir, { withFileTypes: true })) { const p = path.join(dir, e.name), r = path.posix.join(base, e.name); if (e.isDirectory()) add(p, r); else if (e.isFile()) z.file(r, fs.createReadStream(p), { unixPermissions: fs.statSync(p).mode & 0o777 }); } })(OUT, path.basename(OUT));
   z.generateNodeStream({ streamFiles: true, compression: 'DEFLATE', platform: 'UNIX' }).pipe(fs.createWriteStream(zipPath)).on('finish', () => console.log('✔ ' + path.relative(ROOT, zipPath)));
