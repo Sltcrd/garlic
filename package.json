@@ -43,7 +43,7 @@
     "jszip": "3.10.2",
     "mammoth": "1.13.0",
     "marked": "18.1.1",
-    "pdfjs-dist": "6.4.299",
+    "pdfjs-dist": "6.5.438",
     "uiohook-napi": "1.5.5",
     "utif": "3.1.0",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
