@@ -7,6 +7,7 @@
 - **Subtitles:** a new *Sync* tool shifts and stretches SRT/VTT times (including 23.976 ↔ 25 fps); the text editor also opens subtitle files.
 - **Video:** *Compress* can target a final size (8, 16, 25 or 50 MB) instead of a quality level.
 - **PDF tools:** the Edit ring of a PDF now has real PDF tools: **organize pages** (drag to reorder, rotate, delete), **merge** several PDFs, **split / extract** pages, **watermark**, **page numbers** and **document info**. Results are saved as new files; the original is never changed. Encrypted or damaged PDFs are refused with a clear message. The image tools (which only worked on page 1) are no longer shown for PDFs; *Convert → image* still exists.
+- Fixed: the shortcut fired anywhere on screen (a web page, a chat…) and showed the last file selected in Explorer. It now reacts only to a click on a file in File Explorer or on the Desktop.
 
 ## 1.3.1
 
