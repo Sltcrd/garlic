@@ -13,7 +13,7 @@ contextBridge.exposeInMainWorld('native', {
   /* files */
   pathOf: f => { try { return webUtils.getPathForFile(f); } catch { return ''; } },
   readFile: invoke('file:read'), save: invoke('save'), reveal: send('reveal'), fileAction: invoke('file:action'),
-  pick: () => ipcRenderer.invoke('app:pick'), openWheel: send('app:open-wheel'),
+  pick: () => ipcRenderer.invoke('app:pick'), pickPdfs: () => ipcRenderer.invoke('pdf:pick'), openWheel: send('app:open-wheel'),
   /* settings */
   cfgDefaults: () => ipcRenderer.invoke('cfg:defaults'), cfgGet: () => ipcRenderer.invoke('cfg:get'), cfgSet: invoke('cfg:set'), onCfg: on('cfg:update'),
   appInfo: () => ipcRenderer.invoke('app:info'), updateGet: () => ipcRenderer.invoke('update:get'), updateCheck: () => ipcRenderer.invoke('update:check'), updateOpen: () => ipcRenderer.invoke('update:open'),

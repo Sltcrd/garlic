@@ -10,7 +10,8 @@ const { windowIcon } = require('./notify');
 const WHEEL_W = 300, WHEEL_H = 350;
 const EDITOR_TOOLS = new Set(['crop', 'bg', 'erase', 'compress', 'metadata', 'edit', 'redact', 'annotate',
   'a_compress', 'a_metadata', 'a_channels', 'a_normalize', 'a_trim', 'a_visualize',
-  'v_compress', 'v_metadata', 'v_mute', 'v_trim', 'v_crop', 'v_speed', 'v_snapshot', 'v_split']);
+  'v_compress', 'v_metadata', 'v_mute', 'v_trim', 'v_crop', 'v_speed', 'v_snapshot', 'v_split',
+  'p_pages', 'p_merge', 'p_split', 'p_mark', 'p_numbers', 'p_meta']);
 
 const state = { app: null, wheel: null, editor: null, quitting: false, lastActivity: 0, shownAt: 0 };
 

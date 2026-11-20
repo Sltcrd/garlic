@@ -1,8 +1,8 @@
 /* The floating wheel: convert / edit / actions rings for the file the user clicked. */
 const EDIT_RING = ['crop', 'bg', 'erase', 'compress', 'metadata', 'edit', 'redact', 'annotate'];
 const ACT_RING = ['copypath', 'reveal', 'terminal', 'copyto', 'moveto', 'open'];
-const editRing = () => ST.kind === 'audio' ? AUDIO_TOOLS : ST.kind === 'video' ? VIDEO_TOOLS : EDIT_RING;
-const isTool = a => EDIT_RING.includes(a) || AUDIO_TOOLS.includes(a) || VIDEO_TOOLS.includes(a);
+const editRing = () => ST.kind === 'pdf' ? PDF_TOOLS : ST.kind === 'audio' ? AUDIO_TOOLS : ST.kind === 'video' ? VIDEO_TOOLS : EDIT_RING;
+const isTool = a => EDIT_RING.includes(a) || PDF_TOOLS.includes(a) || AUDIO_TOOLS.includes(a) || VIDEO_TOOLS.includes(a);
 const modeName = m => ({ convert: t('Convertir'), edit: t('Editar'), actions: t('Acciones') }[m]);
 
 /** Saves the files produced by a conversion next to the original; returns the path to show (the file, or the folder when there are several). */

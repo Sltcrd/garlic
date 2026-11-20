@@ -3,7 +3,8 @@ const LBL = {
   compress: 'COMPRIMIR', metadata: 'METADATOS', edit: 'EDITAR', bg: 'FONDO', crop: 'RECORTAR', redact: 'CENSURAR', erase: 'BORRAR', annotate: 'ANOTAR',
   copypath: 'COPIAR RUTA', reveal: 'MOSTRAR', terminal: 'TERMINAL', copyto: 'COPIAR A…', moveto: 'MOVER A…', open: 'ABRIR', extract: 'EXTRAER', __more: 'MÁS',
   a_compress: 'COMPRIMIR', a_metadata: 'METADATOS', a_channels: 'CANALES', a_normalize: 'NORMALIZAR', a_trim: 'CORTAR', a_visualize: 'ONDA',
-  v_compress: 'COMPRIMIR', v_metadata: 'METADATOS', v_mute: 'SILENCIAR', v_trim: 'CORTAR', v_crop: 'ENCUADRE', v_speed: 'VELOCIDAD', v_snapshot: 'CAPTURA', v_split: 'DIVIDIR'
+  v_compress: 'COMPRIMIR', v_metadata: 'METADATOS', v_mute: 'SILENCIAR', v_trim: 'CORTAR', v_crop: 'ENCUADRE', v_speed: 'VELOCIDAD', v_snapshot: 'CAPTURA', v_split: 'DIVIDIR',
+  p_pages: 'ORGANIZAR', p_merge: 'UNIR', p_split: 'DIVIDIR', p_mark: 'MARCA', p_numbers: 'NUMERAR', p_meta: 'METADATOS'
 };
 const ICON = {
   compress: 'M-6 -9L0 -3L6 -9M-6 9L0 3L6 9', metadata: 'M-8 -6H8M-8 0H8M-8 6H2', edit: 'M-8 -5H8M-8 5H8', bg: 'M-8 -8H8V8H-8Z',
@@ -16,7 +17,8 @@ const ICON = {
   snap: 'M-8 -4H-4L-2 -7H2L4 -4H8V7H-8ZM-3 1a3 3 0 1 0 6 0a3 3 0 1 0 -6 0', split: 'M-8 -6H8V6H-8ZM0 -6V6'
 };
 Object.assign(ICON, { a_compress: ICON.compress, a_metadata: ICON.metadata, a_channels: ICON.channels, a_normalize: ICON.normalize, a_trim: ICON.trim, a_visualize: ICON.wave,
-  v_compress: ICON.compress, v_metadata: ICON.metadata, v_mute: ICON.mute, v_trim: ICON.trim, v_crop: ICON.crop, v_speed: ICON.speed, v_snapshot: ICON.snap, v_split: ICON.split });
+  v_compress: ICON.compress, v_metadata: ICON.metadata, v_mute: ICON.mute, v_trim: ICON.trim, v_crop: ICON.crop, v_speed: ICON.speed, v_snapshot: ICON.snap, v_split: ICON.split,
+  p_pages: 'M-8 -8H-1V-1H-8ZM1 -8H8V-1H1ZM-8 1H-1V8H-8ZM1 1H8V8H1Z', p_merge: 'M-9 -7H1V3H-9ZM-1 -3H9V7H-1Z', p_split: ICON.split, p_mark: 'M-8 7L0 -8L8 7M-4 2H4', p_numbers: 'M-3 -8L-5 8M5 -8L3 8M-8 -3H8M-8 3H8', p_meta: ICON.metadata });
 const ICON_EXTRA = { edit: '<circle cx="-2" cy="-5" r="2.4" class="f"/><circle cx="3" cy="5" r="2.4" class="f"/>', bg: '<circle cx="2" cy="2" r="3.5"/>', a_visualize: '', v_speed: '' };
 const label = k => (LBL[k] ? t(LBL[k]) : String(k).toUpperCase());
 
