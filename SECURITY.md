@@ -50,6 +50,7 @@ To verify a download: compare `Get-FileHash Garlic-win32-x64.zip` (PowerShell) w
 
 - **`'unsafe-eval'` in the wheel and editor pages' CSP.** Required by `heic2any` (WebAssembly/eval) for HEIC input. The pages have no network access and no remote content, which limits what injected code could do.
 - **Moderate advisories in the `mammoth` dependency chain** (DOCX reading) at the time of writing. They concern pathological input (denial of service), not code execution.
+- **`pdf-lib` is no longer maintained** (last release 2021). It edits PDFs inside the editor window (sandboxed, no network, only files you picked). A malformed or hostile PDF could hang or crash that window; files over 300 MB or 3000 pages and encrypted files are refused. It has no install scripts and its source matches its public repository tag.
 - **Renderer can ask the main process to open the wheel for a path** (`openWheel`), which grants that path. A compromised renderer could therefore grant itself a file. The renderers load only local, bundled code and have no network, so this is documented rather than eliminated.
 - **Binaries are not code-signed.** Verify downloads against the release checksums / build from source.
 - **ffmpeg** is GPL; see `THIRD_PARTY_NOTICES.md`.

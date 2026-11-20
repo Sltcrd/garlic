@@ -17,4 +17,12 @@ async function pickFile(options, parent) {
   return r.canceled || !r.filePaths[0] ? null : r.filePaths[0];
 }
 
-module.exports = { pickFolder, pickFile };
+/** Several files at once (merging PDFs). Tests can force the answer with GARLIC_TEST_PICK=<path>|<path>. */
+async function pickFiles(options, parent) {
+  const forced = testPick();
+  if (forced) return forced.split('|').filter(Boolean);
+  const r = await dialog.showOpenDialog(parent || undefined, { properties: ['openFile', 'multiSelections'], ...options });
+  return r.canceled ? [] : r.filePaths;
+}
+
+module.exports = { pickFolder, pickFile, pickFiles };

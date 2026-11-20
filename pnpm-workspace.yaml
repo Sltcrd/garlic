@@ -15,6 +15,11 @@ strictDepBuilds: true
 # and refuse a package whose publishing trust level dropped (e.g. lost provenance) compared with earlier releases.
 minimumReleaseAge: 4320
 minimumReleaseAgeStrict: true
+# Temporary, exact-version exception (remove after 2026-10-25): Electron 44.9.1 (security fix for compromised eMudhra certificates)
+# depends on this release, which is published by the Electron org through GitHub Actions trusted publishing (provenance attested)
+# and has no code change besides the rebuilt native binary. Reviewed before allowing it.
+minimumReleaseAgeExclude:
+  - '@electron-internal/extract-zip@1.0.6'
 trustPolicy: no-downgrade
 
 # Git/tarball dependencies are only allowed as direct dependencies in package.json (xlsx comes from SheetJS' CDN).

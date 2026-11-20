@@ -2,7 +2,16 @@
 
 ## Unreleased
 
+- **Video studio:** a new first tool in the Edit ring of a video. Cut the video at the playhead, trim and reorder clips (drag), add more clips, change each clip's speed (0.5×–4×) and volume, put titles over the picture, add background music, and export to 16:9, 9:16 or 1:1 at 720p/1080p. Everything happens offline with the bundled ffmpeg; the result is a new MP4 next to the original, with a progress card you can cancel. This is the first stage: transitions, filters and automatic captions are not there yet.
+- **Edit text files:** TXT, Markdown and HTML now have an editor with find & replace and a safe live preview (Markdown/HTML), and a cleaner (trailing spaces, repeated blank lines, line endings, BOM). Files that are not UTF-8 are read correctly and saved as UTF-8; line endings and the BOM are kept.
+- **Subtitles:** a new *Sync* tool shifts and stretches SRT/VTT times (including 23.976 ↔ 25 fps); the text editor also opens subtitle files.
+- **Video:** *Compress* can target a final size (8, 16, 25 or 50 MB) instead of a quality level.
+- **PDF tools:** the Edit ring of a PDF now has real PDF tools: **organize pages** (drag to reorder, rotate, delete), **merge** several PDFs, **split / extract** pages, **watermark**, **page numbers** and **document info**. Results are saved as new files; the original is never changed. Encrypted or damaged PDFs are refused with a clear message. The image tools (which only worked on page 1) are no longer shown for PDFs; *Convert → image* still exists.
 - Fixed: the shortcut fired anywhere on screen (a web page, a chat…) and showed the last file selected in Explorer. It now reacts only to a click on a file in File Explorer or on the Desktop.
+
+## 1.3.1
+
+- **Security:** Electron updated to 44.9.1, which blocks a set of compromised eMudhra intermediate certificates (CVE-2026-115570, GHSA-jr5w-w6x2-84p9). Garlic only makes one HTTPS request (the optional update check), so the practical risk was low, but updating is recommended.
 
 ## 1.3.0
 

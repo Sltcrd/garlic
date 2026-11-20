@@ -39,7 +39,7 @@ Mantén una tecla, haz clic sobre un archivo y elige a qué formato convertirlo,
 | | |
 |---|---|
 | **Convertir** | Más de 60 conversiones: imágenes, PDF, Word, PowerPoint, Markdown, HTML, EPUB, hojas de cálculo, subtítulos, audio, vídeo y archivos comprimidos. Los PDF de Markdown/HTML/Word/PowerPoint se renderizan con Chromium, así que conservan imágenes, tablas, colores y diseño. |
-| **Editar** | Imágenes: recortar, quitar fondo (automático, varita y borrador), añadir fondo, comprimir, ajustar, censurar, anotar y ver metadatos. Audio: comprimir, normalizar, canales, cortar, forma de onda. Vídeo: comprimir, cortar, encuadre, velocidad, silenciar, captura, dividir. |
+| **Editar** | Texto/Markdown/HTML: editor con vista previa y limpieza. Subtítulos: sincronizar. PDF: organizar páginas (arrastrar, girar, eliminar), unir, dividir y extraer, marca de agua, numerar y metadatos. Imágenes: recortar, quitar fondo (automático, varita y borrador), añadir fondo, comprimir, ajustar, censurar, anotar y ver metadatos. Audio: comprimir, normalizar, canales, cortar, forma de onda. Vídeo: **estudio** (línea de tiempo con cortes, orden, velocidad, volumen, títulos y música), comprimir, cortar, encuadre, velocidad, silenciar, captura, dividir. |
 | **Acciones** | Para *cualquier* archivo o carpeta: copiar ruta, mostrar, abrir, terminal aquí, copiar o mover a… Las carpetas se pueden comprimir a ZIP/TAR/TGZ. |
 | **Progreso** | Una tarjeta flotante muestra la barra y el porcentaje (real en audio/vídeo) y, al terminar, te deja **Mostrar**, **Abrir** o **Mover a…** el archivo nuevo. |
 | **Editor** | Ventana propia que se puede mover, redimensionar y **hacer zoom** (Ctrl + rueda, botones, Ctrl +/−/0/1), con desplazamiento (rueda, botón central, barra espaciadora). |

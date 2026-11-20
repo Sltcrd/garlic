@@ -25,6 +25,7 @@
   <div id="pstage">
     <canvas id="pc"></canvas>
     <video id="pm" controls hidden></video>
+    <div id="pgrid" hidden></div>
   </div>
   <div id="pctl"></div>
   <div class="pfoot"><button id="preset" class="ghost">Restablecer</button><button id="papply" class="go">Aplicar</button></div>
@@ -44,6 +45,7 @@
 <script src="../../../node_modules/utif/UTIF.js"></script>
 <script src="../../../node_modules/mammoth/mammoth.browser.min.js"></script>
 <script src="../../../node_modules/marked/lib/marked.umd.js"></script>
+<script src="../../../node_modules/pdf-lib/dist/pdf-lib.min.js"></script>
 <script src="../../../node_modules/@breezystack/lamejs/dist/lamejs.iife.js"></script>
 <script src="../../shared/i18n-en.js"></script>
 <script src="../../shared/i18n.js"></script>
@@ -55,9 +57,14 @@
 <script src="../shared/pptx.js"></script>
 <script src="../shared/stage.js"></script>
 <script src="../shared/tools.js"></script>
+<script src="../shared/pdftools.js"></script>
+<script src="../shared/subs.js"></script>
 <script src="panels.js"></script>
 <script src="erase.js"></script>
 <script src="avtools.js"></script>
+<script src="pdfpanels.js"></script>
+<script src="textpanels.js"></script>
+<script src="studio.js"></script>
 <script src="editor.js"></script>
 <script type="module" src="../shared/pdf-loader.js"></script>
 </body>

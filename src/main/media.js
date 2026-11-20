@@ -80,3 +80,5 @@ ipcMain.handle('ff:run', async (_e, o) => {
   if (!r.ok) { try { if (!pattern) fs.unlinkSync(out); } catch { /* nothing written */ } return { ok: false, err: (r.err || '').trim().split('\n').slice(-3).join(' ') || t('ffmpeg falló.') }; }
   return { ok: true, out: pattern ? path.dirname(out) : out };
 });
+
+module.exports = { run, probe, uniquePath, mmss };
