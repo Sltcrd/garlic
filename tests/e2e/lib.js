@@ -19,18 +19,28 @@ async function waitFor(fn, { timeout = 20000, step = 150, what = 'condition' } =
 }
 
 class Page {
-  constructor(target) { this.target = target; this.id = 0; this.pending = new Map(); this.events = []; }
+  constructor(target) { this.target = target; this.id = 0; this.pending = new Map(); this.fail = new Map(); this.events = []; }
   async connect() {
     if (typeof WebSocket === 'undefined') throw new Error('The e2e tests need Node.js 22+ (global WebSocket).');
     this.ws = new WebSocket(this.target.webSocketDebuggerUrl);
     await new Promise((res, rej) => { this.ws.onopen = res; this.ws.onerror = rej; });
     this.ws.onmessage = m => {
       const d = JSON.parse(m.data);
-      if (d.id && this.pending.has(d.id)) { this.pending.get(d.id)(d); this.pending.delete(d.id); } else this.events.push(d);
+      if (d.id && this.pending.has(d.id)) { this.pending.get(d.id)(d); this.pending.delete(d.id); this.fail.delete(d.id); } else this.events.push(d);
     };
+    this.ws.onclose = () => { for (const f of this.fail.values()) f('The page closed or crashed'); this.pending.clear(); this.fail.clear(); };
     return this;
   }
-  cmd(method, params = {}) { return new Promise(res => { const id = ++this.id; this.pending.set(id, res); this.ws.send(JSON.stringify({ id, method, params })); }); }
+  /** Sends a DevTools command. It fails (instead of waiting forever) when the page crashes, closes or stops answering. */
+  cmd(method, params = {}, timeout = 90000) {
+    return new Promise((res, rej) => {
+      const id = ++this.id, label = method + (params.expression ? ': ' + String(params.expression).slice(0, 120) : '');
+      const timer = setTimeout(() => { this.pending.delete(id); rej(new Error('No answer from the page to ' + label)); }, timeout);
+      this.pending.set(id, d => { clearTimeout(timer); res(d); });
+      this.fail.set(id, e => { clearTimeout(timer); rej(new Error(e + ' (' + label + ')')); });
+      this.ws.send(JSON.stringify({ id, method, params }));
+    });
+  }
   /** Evaluates an expression (awaiting promises) and returns its value; throws on exceptions. */
   async eval(expression) {
     const r = await this.cmd('Runtime.evaluate', { expression, awaitPromise: true, returnByValue: true });
