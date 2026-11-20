@@ -73,15 +73,15 @@ $('#zhand').onclick = () => { V.hand = !V.hand; $('#zhand').classList.toggle('on
 /* ---------------- open / close ---------------- */
 function openPanel(name) {
   const m = MODES[name]; if (!m) return;
-  if (!m.media && !ST.img) { toast(t('No se pudo abrir la imagen.'), true); return; }
-  P = m; W = ST.img;
-  const pm = $('#pm'); pc.hidden = !!m.media; pm.hidden = !m.media; stage.classList.remove('audio');
-  $('#zoomtools').hidden = !!m.media;
+  if (!m.media && !m.own && !ST.img) { toast(t('No se pudo abrir la imagen.'), true); return; }
+  P = m; W = ST.img; document.body.dataset.mode = name;
+  const pm = $('#pm'); pc.hidden = !!(m.media || m.own); pm.hidden = !m.media; $('#pgrid').hidden = !m.own; Object.assign($('#pgrid'), { className: '', innerHTML: '', onclick: null, ondragstart: null, ondragover: null, ondrop: null, ondragend: null }); stage.classList.remove('audio');
+  $('#zoomtools').hidden = !!(m.media || m.own);
   if (!m.media) { try { pm.pause(); pm.removeAttribute('src'); } catch { /* no media */ } }
   $('#ptitle').textContent = P.title; $('#papply').textContent = P.apply || 'Aplicar';
   stage.classList.toggle('checker', name === 'erase');
   V.fit = true; P.open();
-  if (!m.media) fitView();
+  if (!m.media && !m.own) fitView();
 }
 function closePanel() { try { const pm = $('#pm'); pm.pause(); pm.removeAttribute('src'); pm.load(); } catch { /* no media */ } nat.winCtl('close'); }
 $('#preset').onclick = () => P && P.open();

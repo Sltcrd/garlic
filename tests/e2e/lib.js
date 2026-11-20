@@ -19,18 +19,28 @@ async function waitFor(fn, { timeout = 20000, step = 150, what = 'condition' } =
 }
 
 class Page {
-  constructor(target) { this.target = target; this.id = 0; this.pending = new Map(); this.events = []; }
+  constructor(target) { this.target = target; this.id = 0; this.pending = new Map(); this.fail = new Map(); this.events = []; }
   async connect() {
     if (typeof WebSocket === 'undefined') throw new Error('The e2e tests need Node.js 22+ (global WebSocket).');
     this.ws = new WebSocket(this.target.webSocketDebuggerUrl);
     await new Promise((res, rej) => { this.ws.onopen = res; this.ws.onerror = rej; });
     this.ws.onmessage = m => {
       const d = JSON.parse(m.data);
-      if (d.id && this.pending.has(d.id)) { this.pending.get(d.id)(d); this.pending.delete(d.id); } else this.events.push(d);
+      if (d.id && this.pending.has(d.id)) { this.pending.get(d.id)(d); this.pending.delete(d.id); this.fail.delete(d.id); } else this.events.push(d);
     };
+    this.ws.onclose = () => { for (const f of this.fail.values()) f('The page closed or crashed'); this.pending.clear(); this.fail.clear(); };
     return this;
   }
-  cmd(method, params = {}) { return new Promise(res => { const id = ++this.id; this.pending.set(id, res); this.ws.send(JSON.stringify({ id, method, params })); }); }
+  /** Sends a DevTools command. It fails (instead of waiting forever) when the page crashes, closes or stops answering. */
+  cmd(method, params = {}, timeout = 90000) {
+    return new Promise((res, rej) => {
+      const id = ++this.id, label = method + (params.expression ? ': ' + String(params.expression).slice(0, 120) : '');
+      const timer = setTimeout(() => { this.pending.delete(id); rej(new Error('No answer from the page to ' + label)); }, timeout);
+      this.pending.set(id, d => { clearTimeout(timer); res(d); });
+      this.fail.set(id, e => { clearTimeout(timer); rej(new Error(e + ' (' + label + ')')); });
+      this.ws.send(JSON.stringify({ id, method, params }));
+    });
+  }
   /** Evaluates an expression (awaiting promises) and returns its value; throws on exceptions. */
   async eval(expression) {
     const r = await this.cmd('Runtime.evaluate', { expression, awaitPromise: true, returnByValue: true });
@@ -41,13 +51,18 @@ class Page {
   close() { try { this.ws.close(); } catch { /* closed */ } }
 }
 
-async function launch({ port = 9330 + Math.floor(Math.random() * 400), env = {}, args = [] } = {}) {
+async function launch({ port = 0, env = {}, args = [] } = {}) {
   const userData = fs.mkdtempSync(path.join(os.tmpdir(), 'garlic-test-'));
   // GARLIC_BIN lets the same tests run against a packaged build (npm run package) instead of the source tree
   const bin = process.env.GARLIC_BIN, electron = bin || require(path.join(ROOT, 'node_modules', 'electron'));
   const proc = spawn(electron, [...(bin ? [] : [ROOT]), `--remote-debugging-port=${port}`, `--user-data-dir=${userData}`, '--hidden', ...args], {
     env: { ...process.env, GARLIC_TEST: '1', ...env }, stdio: 'ignore', windowsHide: true
   });
+  /* Port 0 = let Chromium pick a free one and write it to <user-data>/DevToolsActivePort. A random fixed port could be
+   * taken by another test file running at the same time, and then a test would drive the other test's app. */
+  if (!port) {
+    port = +(await waitFor(() => { const n = parseInt(fs.readFileSync(path.join(userData, 'DevToolsActivePort'), 'utf8'), 10); return n > 0 && n; }, { what: 'the debugging port' }));
+  }
   const pages = new Map();
   const targets = async () => (await (await fetch(`http://127.0.0.1:${port}/json`)).json()).filter(t => t.type === 'page');
   await waitFor(async () => (await targets()).some(t => t.url.includes('/renderer/app/')) , { what: 'main window' });
@@ -67,6 +82,12 @@ async function launch({ port = 9330 + Math.floor(Math.random() * 400), env = {},
       for (const p of pages.values()) p.close();
       proc.kill();
       await sleep(400);
+      // a stuck Electron would keep the test process (and the CI job) alive for ever: end the whole process tree
+      if (proc.exitCode === null && proc.signalCode === null) {
+        try { if (process.platform === 'win32') require('child_process').spawnSync('taskkill', ['/pid', String(proc.pid), '/T', '/F'], { stdio: 'ignore' }); else proc.kill('SIGKILL'); } catch { /* already gone */ }
+        await sleep(300);
+      }
+      proc.unref();
       try { fs.rmSync(userData, { recursive: true, force: true }); } catch { /* still locked: temp folder, harmless */ }
     }
   };

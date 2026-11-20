@@ -26,5 +26,11 @@ module.exports = [
     languageOptions: { ecmaVersion: 2023, sourceType: 'script', globals: { ...globals.browser, I18N: 'writable', I18N_EN: 'writable', I18nDom: 'writable', module: 'readonly', require: 'readonly' } },
     rules: { 'no-undef': 'off', 'no-unused-vars': 'off', 'no-empty': ['error', { allowEmptyCatch: true }], 'no-var': 'error', eqeqeq: ['warn', 'always', { null: 'ignore' }] }
   },
+  {
+    // the website script (docs/site.js) is a standalone browser script
+    files: ['docs/**/*.js'],
+    languageOptions: { ecmaVersion: 2023, sourceType: 'script', globals: { ...globals.browser } },
+    rules: { 'no-var': 'off', 'no-empty': ['error', { allowEmptyCatch: true }] }
+  },
   { files: ['src/renderer/shared/pdf-loader.js'], languageOptions: { sourceType: 'module' } }
 ];

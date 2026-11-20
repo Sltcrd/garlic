@@ -8,7 +8,7 @@
 
 Hold a key, click a file, and pick the format to convert it to, the tool to use or what to do with it.
 
-English · [Español](README.md)
+English · [Español](README.md) · [Website](https://sltcrd.github.io/garlic/)
 
 <img src="docs/img/wheel-convert.png" alt="Garlic's wheel next to a file" width="300">
 
@@ -39,7 +39,7 @@ English · [Español](README.md)
 | | |
 |---|---|
 | **Convert** | 60+ conversions: images, PDF, Word, PowerPoint, Markdown, HTML, EPUB, spreadsheets, subtitles, audio, video and archives. PDFs made from Markdown/HTML/Word/PowerPoint are rendered by Chromium, so images, tables, colours and layout are kept. |
-| **Edit** | Images: crop, remove background (automatic, magic wand, eraser), add background, compress, adjust, redact, annotate, view metadata. Audio: compress, normalise, channels, trim, waveform. Video: compress, trim, crop, speed, mute, capture frame, split. |
+| **Edit** | Text/Markdown/HTML: editor with preview, and cleaner. Subtitles: sync. PDF: organize pages (drag, rotate, delete), merge, split and extract, watermark, page numbers and document info. Images: crop, remove background (automatic, magic wand, eraser), add background, compress, adjust, redact, annotate, view metadata. Audio: compress, normalise, channels, trim, waveform. Video: **studio** (timeline with cuts, reordering, speed, volume, titles and music), compress, trim, crop, speed, mute, capture frame, split. |
 | **Actions** | For *any* file or folder: copy path, reveal, open, terminal here, copy or move to… Folders can be packed to ZIP/TAR/TGZ. |
 | **Progress** | A floating card shows a bar and percentage (real for audio/video) and, when done, lets you **Show**, **Open** or **Move to…** the new file. |
 | **Editor** | Its own window: movable, resizable and **zoomable** (Ctrl + wheel, buttons, Ctrl +/−/0/1), with panning (wheel, middle button, space bar). |
@@ -56,6 +56,10 @@ English · [Español](README.md)
 5. Close the wheel by clicking outside, pressing **Esc**, or leaving it idle for a few seconds.
 
 You can also drop a file on the window, use **Choose file…**, or open one from the command line (`garlic file.pdf`).
+
+<div align="center">
+  <video src="https://github.com/user-attachments/assets/1d1ce855-d81c-4116-8478-6c83d8107a81" width="640" controls muted></video>
+</div>
 
 <p align="center"><img src="docs/img/editor-crop-zoom.png" alt="Editor with zoom" width="560">&nbsp;<img src="docs/img/job-cards.png" alt="Progress cards" width="360"></p>
 
@@ -199,7 +203,7 @@ Settings are stored as JSON in the user data folder:
 - Garlic never runs or opens `.exe` files, scripts or shortcuts.
 - **Locked and verified dependencies:** exact versions with hashes, no unapproved install scripts, nothing published less than 3 days ago, and an audit in CI. Details in [SECURITY.md](SECURITY.md#dependencies-and-supply-chain).
 
-Details, threat model and how to report a vulnerability: [SECURITY.md](SECURITY.md).
+Details, threat model and how to report a vulnerability: [SECURITY.md](SECURITY.md). Privacy policy: [PRIVACY.md](PRIVACY.md).
 
 ## Project structure
 
@@ -237,7 +241,7 @@ garlic/
 ├─ tests/
 │  ├─ unit/                Unit tests (security, settings, language)
 │  └─ e2e/                 End-to-end tests driving the real app
-├─ docs/                   ARCHITECTURE.md, PLATFORMS.md and images
+├─ docs/                   Website (index.html, GitHub Pages), ARCHITECTURE.md, PLATFORMS.md and images
 └─ .github/                CI and issue templates
 ```
 

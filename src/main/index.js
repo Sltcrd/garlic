@@ -18,6 +18,7 @@ const ipc = require('./ipc');
 const updates = require('./updates');
 const { notify, appIcon } = require('./notify');
 require('./media');
+require('./studio');
 require('./archive');
 require('./render');
 

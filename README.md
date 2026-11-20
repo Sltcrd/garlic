@@ -8,7 +8,7 @@
 
 Mantén una tecla, haz clic sobre un archivo y elige a qué formato convertirlo, qué herramienta usar o qué hacer con él.
 
-[English](README.en.md) · Español
+[English](README.en.md) · Español · [Sitio web](https://sltcrd.github.io/garlic/)
 
 <img src="docs/img/wheel-convert.png" alt="La rueda de Garlic junto a un archivo" width="300">
 
@@ -39,7 +39,7 @@ Mantén una tecla, haz clic sobre un archivo y elige a qué formato convertirlo,
 | | |
 |---|---|
 | **Convertir** | Más de 60 conversiones: imágenes, PDF, Word, PowerPoint, Markdown, HTML, EPUB, hojas de cálculo, subtítulos, audio, vídeo y archivos comprimidos. Los PDF de Markdown/HTML/Word/PowerPoint se renderizan con Chromium, así que conservan imágenes, tablas, colores y diseño. |
-| **Editar** | Imágenes: recortar, quitar fondo (automático, varita y borrador), añadir fondo, comprimir, ajustar, censurar, anotar y ver metadatos. Audio: comprimir, normalizar, canales, cortar, forma de onda. Vídeo: comprimir, cortar, encuadre, velocidad, silenciar, captura, dividir. |
+| **Editar** | Texto/Markdown/HTML: editor con vista previa y limpieza. Subtítulos: sincronizar. PDF: organizar páginas (arrastrar, girar, eliminar), unir, dividir y extraer, marca de agua, numerar y metadatos. Imágenes: recortar, quitar fondo (automático, varita y borrador), añadir fondo, comprimir, ajustar, censurar, anotar y ver metadatos. Audio: comprimir, normalizar, canales, cortar, forma de onda. Vídeo: **estudio** (línea de tiempo con cortes, orden, velocidad, volumen, títulos y música), comprimir, cortar, encuadre, velocidad, silenciar, captura, dividir. |
 | **Acciones** | Para *cualquier* archivo o carpeta: copiar ruta, mostrar, abrir, terminal aquí, copiar o mover a… Las carpetas se pueden comprimir a ZIP/TAR/TGZ. |
 | **Progreso** | Una tarjeta flotante muestra la barra y el porcentaje (real en audio/vídeo) y, al terminar, te deja **Mostrar**, **Abrir** o **Mover a…** el archivo nuevo. |
 | **Editor** | Ventana propia que se puede mover, redimensionar y **hacer zoom** (Ctrl + rueda, botones, Ctrl +/−/0/1), con desplazamiento (rueda, botón central, barra espaciadora). |
@@ -56,6 +56,10 @@ Mantén una tecla, haz clic sobre un archivo y elige a qué formato convertirlo,
 5. Cierra la rueda con un clic fuera, **Esc** o dejándola unos segundos.
 
 También puedes soltar un archivo en la ventana, usar **Elegir archivo…** o abrirlo desde la línea de comandos (`garlic archivo.pdf`).
+
+<div align="center">
+  <video src="https://github.com/user-attachments/assets/1d1ce855-d81c-4116-8478-6c83d8107a81" width="640" controls muted></video>
+</div>
 
 <p align="center"><img src="docs/img/editor-crop-zoom.png" alt="Editor con zoom" width="560">&nbsp;<img src="docs/img/job-cards.png" alt="Tarjetas de progreso" width="360"></p>
 
@@ -199,7 +203,7 @@ Los ajustes se guardan en un JSON dentro de la carpeta de datos del usuario:
 - Garlic nunca ejecuta ni abre `.exe`, scripts o accesos directos.
 - **Dependencias bloqueadas y verificadas:** versiones exactas con hash, sin scripts de instalación no aprobados, sin versiones publicadas hace menos de 3 días y con auditoría en el CI. Detalles en [SECURITY.md](SECURITY.md#dependencies-and-supply-chain).
 
-Detalles, modelo de amenazas y cómo informar de una vulnerabilidad: [SECURITY.md](SECURITY.md).
+Detalles, modelo de amenazas y cómo informar de una vulnerabilidad: [SECURITY.md](SECURITY.md). Política de privacidad: [PRIVACY.es.md](PRIVACY.es.md).
 
 ## Estructura del proyecto
 
@@ -237,7 +241,7 @@ garlic/
 ├─ tests/
 │  ├─ unit/                Pruebas unitarias (seguridad, ajustes, idioma)
 │  └─ e2e/                 Pruebas de extremo a extremo con la app real
-├─ docs/                   ARCHITECTURE.md, PLATFORMS.md e imágenes
+├─ docs/                   Sitio web (index.html, GitHub Pages), ARCHITECTURE.md, PLATFORMS.md e imágenes
 └─ .github/                CI y plantillas de issues
 ```
 

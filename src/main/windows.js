@@ -10,7 +10,8 @@ const { windowIcon } = require('./notify');
 const WHEEL_W = 300, WHEEL_H = 350;
 const EDITOR_TOOLS = new Set(['crop', 'bg', 'erase', 'compress', 'metadata', 'edit', 'redact', 'annotate',
   'a_compress', 'a_metadata', 'a_channels', 'a_normalize', 'a_trim', 'a_visualize',
-  'v_compress', 'v_metadata', 'v_mute', 'v_trim', 'v_crop', 'v_speed', 'v_snapshot', 'v_split']);
+  'v_compress', 'v_metadata', 'v_mute', 'v_trim', 'v_crop', 'v_speed', 'v_snapshot', 'v_split',
+  'p_pages', 'p_merge', 'p_split', 'p_mark', 'p_numbers', 'p_meta', 's_sync', 't_edit', 't_clean', 'v_studio']);
 
 const state = { app: null, wheel: null, editor: null, quitting: false, lastActivity: 0, shownAt: 0 };
 
@@ -91,7 +92,7 @@ function openEditor(file, tool) {
   if (!EDITOR_TOOLS.has(tool) || !security.canReadFile(file)) return;
   if (state.editor && !state.editor.isDestroyed()) { state.editor.show(); state.editor.focus(); state.editor.webContents.send('editor:open', { path: file, tool }); return; }
   const wa = screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).workArea;
-  const width = Math.min(860, wa.width - 40), height = Math.min(800, wa.height - 40);
+  const big = tool === 'v_studio', width = Math.min(big ? 1180 : 860, wa.width - 40), height = Math.min(big ? 860 : 800, wa.height - 40);
   const w = state.editor = new BrowserWindow({
     width, height, x: Math.round(wa.x + (wa.width - width) / 2), y: Math.round(wa.y + (wa.height - height) / 2), minWidth: 560, minHeight: 520,
     show: false, frame: false, resizable: true, hasShadow: true, backgroundColor: config.get().bg, title: 'Garlic', icon: windowIcon(), webPreferences: webPreferences()
