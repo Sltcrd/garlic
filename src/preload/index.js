@@ -24,7 +24,7 @@ contextBridge.exposeInMainWorld('native', {
   openEditor: send('editor:open'), onEditorOpen: on('editor:open'),
   notify: send('notify'),
   /* conversion helpers that need the main process */
-  ffProbe: invoke('ff:probe'), ffRun: invoke('ff:run'), packDir: invoke('dir:pack'), htmlPdf: invoke('html:pdf'), htmlInline: invoke('html:inline'),
+  ffProbe: invoke('ff:probe'), studioExport: invoke('studio:export'), pickMedia: invoke('media:pick'), ffRun: invoke('ff:run'), packDir: invoke('dir:pack'), htmlPdf: invoke('html:pdf'), htmlInline: invoke('html:inline'),
   /* jobs / progress cards */
   jobStart: invoke('job:start'), jobProgress: send('job:progress'), jobDone: send('job:done'), jobError: send('job:error'), jobQuick: send('job:quick'),
   jobAction: send('job:action'), jobsSize: send('jobs:size'), jobsHover: send('jobs:hover'), onJobs: on('jobs:state'),

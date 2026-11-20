@@ -85,3 +85,30 @@ html[data-platform=darwin] #edbar{padding-left:84px;padding-right:14px}
 #pgrid.edit textarea{flex:1;min-width:0;resize:none;border:0;border-radius:10px;padding:12px;background:rgba(255,255,255,.95);color:#1d1d1d;font:13px/1.5 Consolas,"Cascadia Mono",monospace;user-select:text;tab-size:4;white-space:pre;overflow:auto}
 #pgrid.edit iframe{flex:1;min-width:0;border:0;border-radius:10px;background:#fff}
 #pctl .mini{white-space:nowrap}
+
+/* ---- video studio ---- */
+body[data-mode=v_studio] #pctl{max-height:42%}
+#pgrid.studio{display:grid;grid-template-columns:1fr 270px;grid-template-rows:minmax(0,1fr) auto auto;gap:8px 12px;padding:10px;overflow:hidden;align-content:stretch}
+#sdstage{position:relative;min-height:0;border-radius:10px;overflow:hidden;background:#000}
+#sdv{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;cursor:pointer}
+#sdo{position:absolute;pointer-events:none;overflow:hidden}
+.sdt{position:absolute;left:0;right:0;text-align:center;font-weight:700;line-height:1.2;text-shadow:0 0 3px #000,0 0 6px #000;padding:0 4%}
+#sdside{grid-row:1/4;grid-column:2;overflow:auto;padding:4px 2px;font-size:12.5px}
+#sdside h4{margin:2px 0 6px;font-size:13px}
+#sdside .sdn{opacity:.75;margin-bottom:6px;word-break:break-all}
+#sdside textarea{width:100%;box-sizing:border-box;resize:vertical;border:0;border-radius:8px;padding:6px 8px;background:rgba(255,255,255,.92);color:#222;font:inherit}
+#sdside .row{display:flex;align-items:center;gap:8px;margin:6px 0}
+#sdside .row>label{width:62px;flex:none;opacity:.9}
+#sdside input[type=range]{flex:1;min-width:0;accent-color:var(--acc)}
+#sdside .val{width:42px;text-align:right;font-size:11.5px}
+#sdbar{display:flex;align-items:center;gap:12px;font-size:12px}
+#sdinfo{margin-left:auto;opacity:.75}
+#sdtl{position:relative;padding:4px 0 2px;display:flex;flex-direction:column;gap:5px;user-select:none}
+.sdrow{position:relative;display:flex;gap:2px;min-height:14px}
+.sdc{min-width:22px;height:38px;border-radius:7px;background:rgba(255,255,255,.14);border:2px solid transparent;padding:3px 7px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;justify-content:center;font-size:11px}
+.sdc.sel{border-color:var(--acc);background:rgba(255,255,255,.22)}
+.sdc span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sdc i{font-style:normal;opacity:.7;font-size:10px}
+.sdtx,.sdmu{height:20px}
+.sdp{position:absolute;top:0;height:18px;border-radius:5px;background:rgba(255,225,74,.28);border:1px solid rgba(255,225,74,.6);font-size:10.5px;line-height:16px;padding:0 5px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;cursor:pointer;box-sizing:border-box}
+.sdp.sel{background:rgba(255,225,74,.5)}.sdp.mu{background:rgba(120,200,255,.22);border-color:rgba(120,200,255,.5);cursor:default}
+#sdph{position:absolute;top:0;bottom:0;width:2px;background:var(--acc);pointer-events:none;box-shadow:0 0 4px #0008}
