@@ -31,7 +31,7 @@ async function tool(name) {
 }
 /** Presses the apply button; the editor window closes when the file is saved. */
 async function apply(ed) {
-  await ed.eval(`document.querySelector('#papply').click()`);
+  await ed.eval(`setTimeout(() => document.querySelector('#papply').click(), 0)`);   // answer first: the editor window closes itself after saving
   const main = await app.page('app');
   await waitFor(async () => JSON.parse(await main.eval('nat.testState().then(JSON.stringify)')).editor === false, { what: 'editor closed after saving', timeout: 20000 });
 }
