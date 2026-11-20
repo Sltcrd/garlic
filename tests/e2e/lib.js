@@ -51,13 +51,18 @@ class Page {
   close() { try { this.ws.close(); } catch { /* closed */ } }
 }
 
-async function launch({ port = 9330 + Math.floor(Math.random() * 400), env = {}, args = [] } = {}) {
+async function launch({ port = 0, env = {}, args = [] } = {}) {
   const userData = fs.mkdtempSync(path.join(os.tmpdir(), 'garlic-test-'));
   // GARLIC_BIN lets the same tests run against a packaged build (npm run package) instead of the source tree
   const bin = process.env.GARLIC_BIN, electron = bin || require(path.join(ROOT, 'node_modules', 'electron'));
   const proc = spawn(electron, [...(bin ? [] : [ROOT]), `--remote-debugging-port=${port}`, `--user-data-dir=${userData}`, '--hidden', ...args], {
     env: { ...process.env, GARLIC_TEST: '1', ...env }, stdio: 'ignore', windowsHide: true
   });
+  /* Port 0 = let Chromium pick a free one and write it to <user-data>/DevToolsActivePort. A random fixed port could be
+   * taken by another test file running at the same time, and then a test would drive the other test's app. */
+  if (!port) {
+    port = +(await waitFor(() => { const n = parseInt(fs.readFileSync(path.join(userData, 'DevToolsActivePort'), 'utf8'), 10); return n > 0 && n; }, { what: 'the debugging port' }));
+  }
   const pages = new Map();
   const targets = async () => (await (await fetch(`http://127.0.0.1:${port}/json`)).json()).filter(t => t.type === 'page');
   await waitFor(async () => (await targets()).some(t => t.url.includes('/renderer/app/')) , { what: 'main window' });
