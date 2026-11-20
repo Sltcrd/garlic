@@ -127,6 +127,7 @@ if (process.argv.includes('--zip') && platform === 'darwin') {
   console.log('✔ ' + path.relative(ROOT, zipPath));
 } else if (process.argv.includes('--zip')) {
   const JSZip = require('jszip'), zipPath = OUT + '.zip', z = new JSZip();
-  (function add(dir, base) { for (const e of fs.readdirSync(dir, { withFileTypes: true })) { const p = path.join(dir, e.name), r = path.posix.join(base, e.name); if (e.isDirectory()) add(p, r); else if (e.isFile()) z.file(r, fs.createReadStream(p), { unixPermissions: fs.statSync(p).mode & 0o777 }); } })(OUT, path.basename(OUT));
+  /* files are read one by one into memory: with createReadStream every file stayed open until the end, and above ~8000 files (pdf-lib alone has 1500) Windows ran out of handles (EMFILE) */
+  (function add(dir, base) { for (const e of fs.readdirSync(dir, { withFileTypes: true })) { const p = path.join(dir, e.name), r = path.posix.join(base, e.name); if (e.isDirectory()) add(p, r); else if (e.isFile()) z.file(r, fs.readFileSync(p), { unixPermissions: fs.statSync(p).mode & 0o777 }); } })(OUT, path.basename(OUT));
   z.generateNodeStream({ streamFiles: true, compression: 'DEFLATE', platform: 'UNIX' }).pipe(fs.createWriteStream(zipPath)).on('finish', () => console.log('✔ ' + path.relative(ROOT, zipPath)));
 }
