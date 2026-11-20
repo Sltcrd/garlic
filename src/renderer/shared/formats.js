@@ -208,7 +208,7 @@ async function archiveEntries(bytes, ext) {
 async function decodeAudio(bytes) {
   const ctx = new (window.AudioContext || window.webkitAudioContext)();
   try { return await ctx.decodeAudioData(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength)); }
-  catch (e) { throw new Error(t('No se pudo leer el audio (códec no soportado).')); } finally { ctx.close(); }
+  catch (e) { throw new Error(t('No se pudo leer el audio (códec no soportado).'), { cause: e }); } finally { ctx.close(); }
 }
 function wavBlob(buf) {
   const ch = Math.min(2, buf.numberOfChannels), n = buf.length, out = new DataView(new ArrayBuffer(44 + n * ch * 2)), w = (o, s) => [...s].forEach((c, i) => out.setUint8(o + i, c.charCodeAt(0)));
