@@ -51,6 +51,12 @@ function register({ onQuit }) {
     const wa = screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).workArea;
     windows.showWheel(file, { x: wa.x + wa.width / 2 - 140, y: wa.y + wa.height / 2 });
   });
+  /* PDFs to merge: the user picks them in the native dialog, which is what grants the renderer read access */
+  ipcMain.handle('pdf:pick', async e => {
+    const parent = BrowserWindow.fromWebContents(e.sender);
+    const picked = (await dialogs.pickFiles({ filters: [{ name: 'PDF', extensions: ['pdf'] }] }, parent)).filter(p => typeof p === 'string' && /\.pdf$/i.test(p)).slice(0, 50);
+    return picked.filter(p => security.grant(p)).map(p => ({ path: p, name: path.basename(p), size: fs.statSync(p).size }));
+  });
   ipcMain.handle('file:read', (_e, p) => {
     if (!security.canReadFile(p)) throw new Error('Access denied');
     return fs.readFileSync(p);

@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- **PDF tools:** the Edit ring of a PDF now has real PDF tools: **organize pages** (drag to reorder, rotate, delete), **merge** several PDFs, **split / extract** pages, **watermark**, **page numbers** and **document info**. Results are saved as new files; the original is never changed. Encrypted or damaged PDFs are refused with a clear message. The image tools (which only worked on page 1) are no longer shown for PDFs; *Convert → image* still exists.
+
 ## 1.3.1
 
 - **Security:** Electron updated to 44.9.1, which blocks a set of compromised eMudhra intermediate certificates (CVE-2026-115570, GHSA-jr5w-w6x2-84p9). Garlic only makes one HTTPS request (the optional update check), so the practical risk was low, but updating is recommended.
