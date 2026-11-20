@@ -58,9 +58,18 @@ const AVM = {
     async open() { await avLoad(); avPrepare(); ctl('<div class="info">Genera una imagen PNG con la forma de onda del audio.</div>'); },
     save() { ffJob('Generando onda…', `${ST.name}${t('_onda')}.png`, ['-filter_complex', `showwavespic=s=1600x400:colors=0x${CFG.ac.slice(1)}`, '-frames:v', '1']); } },
 
-  v_compress: { title: 'Comprimir vídeo', apply: 'Comprimir', crf: 26, small: false,
-    async open() { await avLoad(); avPrepare(); this.crf = 26; this.small = false; ctl(`<div class="info"><b>Duración</b>${fmtT(AV.info.duration)}<br><b>Tamaño</b>${AV.info.width}×${AV.info.height}</div><div class="row"><label>Calidad</label><div class="chips" id="vq"></div></div><div class="row"><label>Resolución</label><label style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="v7"> Reducir a 720p</label></div>`); chipRow('vq', ['Alta', 'Media', 'Baja'], 'Media', v => this.crf = { Alta: 21, Media: 26, Baja: 32 }[v]); $('#v7').onchange = e => this.small = e.target.checked; },
-    save() { const a = ['-c:v', 'libx264', '-preset', 'veryfast', '-crf', String(this.crf), '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '128k', '-movflags', '+faststart']; if (this.small) a.unshift('-vf', 'scale=-2:720'); ffJob('Comprimiendo vídeo…', `${ST.name}${t('_comprimido')}.mp4`, a); } },
+  v_compress: { title: 'Comprimir vídeo', apply: 'Comprimir', crf: 26, small: false, target: 0,
+    async open() { await avLoad(); avPrepare(); this.crf = 26; this.small = false; this.target = 0; ctl(`<div class="info"><b>Duración</b>${fmtT(AV.info.duration)}<br><b>Tamaño</b>${AV.info.width}×${AV.info.height}</div><div class="row"><label>Calidad</label><div class="chips" id="vq"></div></div><div class="row"><label>Tamaño final</label><div class="chips" id="vz"></div></div><div class="info" id="vzi" style="opacity:.85"></div><div class="row"><label>Resolución</label><label style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="v7"> Reducir a 720p</label></div>`); chipRow('vq', ['Alta', 'Media', 'Baja'], 'Media', v => this.crf = { Alta: 21, Media: 26, Baja: 32 }[v]); $('#v7').onchange = e => this.small = e.target.checked; chipRow('vz', ['Por calidad', '8 MB', '16 MB', '25 MB', '50 MB'], 'Por calidad', v => { this.target = v === 'Por calidad' ? 0 : parseInt(v); this.note(); }); },
+    note() { const el = $('#vzi'); if (!el) return; if (!this.target) { el.textContent = ''; $('#vq').closest('.row').hidden = false; return; } $('#vq').closest('.row').hidden = true; const k = this.kbps(); el.textContent = k < 60 ? t('Ese tamaño es demasiado pequeño para la duración del vídeo.') : t('Se ajusta la calidad para que pese unos {n} MB como máximo.', { n: this.target }); },
+    kbps() { const dur = AV.info.duration || 1, a = AV.info.hasAudio ? 96 : 0; return Math.floor(this.target * 8192 * 0.93 / dur - a); },
+    save() {
+      const a = ['-c:v', 'libx264', '-preset', 'veryfast', '-crf', String(this.crf), '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '128k', '-movflags', '+faststart'];
+      if (this.target) {
+        const k = this.kbps(); if (k < 60) throw new Error(t('Ese tamaño es demasiado pequeño para la duración del vídeo.'));
+        a.splice(0, a.length, '-c:v', 'libx264', '-preset', 'veryfast', '-b:v', k + 'k', '-maxrate', Math.floor(k * 1.4) + 'k', '-bufsize', (k * 2) + 'k', '-pix_fmt', 'yuv420p', ...(AV.info.hasAudio ? ['-c:a', 'aac', '-b:a', '96k'] : ['-an']), '-movflags', '+faststart');
+        if (k < 900 && AV.info.height > 720) this.small = true;       // little room for the bits: a smaller picture looks better than a blocky big one
+      }
+      if (this.small) a.unshift('-vf', 'scale=-2:720'); ffJob('Comprimiendo vídeo…', `${ST.name}${t('_comprimido')}.mp4`, a); } },
   v_metadata: { title: 'Metadatos del vídeo', apply: 'Quitar metadatos y guardar',
     async open() { await avLoad(); avPrepare(); const i = AV.info; ctl(`<div class="info"><b>Duración</b>${fmtT(i.duration)}<br><b>Tamaño</b>${i.width}×${i.height}<br><b>Etiquetas</b>${i.tags.length ? '<br>' + i.tags.map(t => escH(t)).join('<br>') : 'ninguna'}</div>`); },
     save() { ffJob('Limpiando metadatos…', `${ST.name}${t('_limpio')}.${ST.ext}`, ['-map_metadata', '-1', '-c', 'copy']); } },

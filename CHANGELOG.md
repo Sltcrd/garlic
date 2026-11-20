@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- **Edit text files:** TXT, Markdown and HTML now have an editor with find & replace and a safe live preview (Markdown/HTML), and a cleaner (trailing spaces, repeated blank lines, line endings, BOM). Files that are not UTF-8 are read correctly and saved as UTF-8; line endings and the BOM are kept.
+- **Subtitles:** a new *Sync* tool shifts and stretches SRT/VTT times (including 23.976 ↔ 25 fps); the text editor also opens subtitle files.
+- **Video:** *Compress* can target a final size (8, 16, 25 or 50 MB) instead of a quality level.
 - **PDF tools:** the Edit ring of a PDF now has real PDF tools: **organize pages** (drag to reorder, rotate, delete), **merge** several PDFs, **split / extract** pages, **watermark**, **page numbers** and **document info**. Results are saved as new files; the original is never changed. Encrypted or damaged PDFs are refused with a clear message. The image tools (which only worked on page 1) are no longer shown for PDFs; *Convert → image* still exists.
 
 ## 1.3.1

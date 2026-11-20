@@ -79,3 +79,9 @@ html[data-platform=darwin] #edbar{padding-left:84px;padding-right:14px}
 .mrow .mi{opacity:.8;font-size:12px;flex:none}
 .mrow button{width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,.14);color:#fff}
 .mrow button:hover{background:var(--acc)}
+
+/* text editor / cleaner (textarea + sandboxed preview) */
+#pgrid.edit{display:flex;gap:10px;padding:10px;overflow:hidden}
+#pgrid.edit textarea{flex:1;min-width:0;resize:none;border:0;border-radius:10px;padding:12px;background:rgba(255,255,255,.95);color:#1d1d1d;font:13px/1.5 Consolas,"Cascadia Mono",monospace;user-select:text;tab-size:4;white-space:pre;overflow:auto}
+#pgrid.edit iframe{flex:1;min-width:0;border:0;border-radius:10px;background:#fff}
+#pctl .mini{white-space:nowrap}
