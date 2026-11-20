@@ -75,7 +75,7 @@ function openPanel(name) {
   const m = MODES[name]; if (!m) return;
   if (!m.media && !m.own && !ST.img) { toast(t('No se pudo abrir la imagen.'), true); return; }
   P = m; W = ST.img;
-  const pm = $('#pm'); pc.hidden = !!(m.media || m.own); pm.hidden = !m.media; $('#pgrid').hidden = !m.own; stage.classList.remove('audio');
+  const pm = $('#pm'); pc.hidden = !!(m.media || m.own); pm.hidden = !m.media; $('#pgrid').hidden = !m.own; Object.assign($('#pgrid'), { className: '', innerHTML: '', onclick: null, ondragstart: null, ondragover: null, ondrop: null, ondragend: null }); stage.classList.remove('audio');
   $('#zoomtools').hidden = !!(m.media || m.own);
   if (!m.media) { try { pm.pause(); pm.removeAttribute('src'); } catch { /* no media */ } }
   $('#ptitle').textContent = P.title; $('#papply').textContent = P.apply || 'Aplicar';

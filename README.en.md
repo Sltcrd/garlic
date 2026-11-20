@@ -39,7 +39,7 @@ English · [Español](README.md) · [Website](https://sltcrd.github.io/garlic/)
 | | |
 |---|---|
 | **Convert** | 60+ conversions: images, PDF, Word, PowerPoint, Markdown, HTML, EPUB, spreadsheets, subtitles, audio, video and archives. PDFs made from Markdown/HTML/Word/PowerPoint are rendered by Chromium, so images, tables, colours and layout are kept. |
-| **Edit** | PDF: organize pages (drag, rotate, delete), merge, split and extract, watermark, page numbers and document info. Images: crop, remove background (automatic, magic wand, eraser), add background, compress, adjust, redact, annotate, view metadata. Audio: compress, normalise, channels, trim, waveform. Video: compress, trim, crop, speed, mute, capture frame, split. |
+| **Edit** | Text/Markdown/HTML: editor with preview, and cleaner. Subtitles: sync. PDF: organize pages (drag, rotate, delete), merge, split and extract, watermark, page numbers and document info. Images: crop, remove background (automatic, magic wand, eraser), add background, compress, adjust, redact, annotate, view metadata. Audio: compress, normalise, channels, trim, waveform. Video: compress, trim, crop, speed, mute, capture frame, split. |
 | **Actions** | For *any* file or folder: copy path, reveal, open, terminal here, copy or move to… Folders can be packed to ZIP/TAR/TGZ. |
 | **Progress** | A floating card shows a bar and percentage (real for audio/video) and, when done, lets you **Show**, **Open** or **Move to…** the new file. |
 | **Editor** | Its own window: movable, resizable and **zoomable** (Ctrl + wheel, buttons, Ctrl +/−/0/1), with panning (wheel, middle button, space bar). |
