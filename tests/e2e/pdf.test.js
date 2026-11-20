@@ -14,6 +14,7 @@ test.before(async () => {
   dir = tempDir('garlic-pdf-'); A = path.join(dir, 'a.pdf'); B = path.join(dir, 'b.pdf');
   fs.writeFileSync(A, await pdf(4)); fs.writeFileSync(B, await pdf(2));
   app = await launch({ env: { GARLIC_TEST_PICK: B } });          // the "Add PDF…" dialog answers with b.pdf
+  await (await app.page('app')).eval(`cfgSet({ lang: 'es' })`);    // output names follow the UI language (…_organizado.pdf); the CI machine is English
   const wheel = await app.page('wheel');
   await wheel.eval(`nat.openWheel(${JSON.stringify(A)})`);         // opening the wheel is what grants access to the file
   await wheel.eval(`nat.openWheel(${JSON.stringify(B)})`);
