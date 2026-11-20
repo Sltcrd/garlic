@@ -15,6 +15,7 @@ test.before(async () => {
   dir = tempDir('garlic-text-');
   fs.writeFileSync(f('nota.md'), MD); fs.writeFileSync(f('peli.srt'), SRT); fs.writeFileSync(f('viejo.txt'), Buffer.from([0x63, 0x61, 0x66, 0xE9, 0x0A]));   // "café" in Windows-1252
   app = await launch();
+  await (await app.page('app')).eval(`cfgSet({ lang: 'es' })`);    // output names follow the UI language (…_editado.md); the CI machine is English
   const wheel = await app.page('wheel');
   for (const n of ['nota.md', 'peli.srt', 'viejo.txt']) await wheel.eval(`nat.openWheel(${JSON.stringify(f(n))})`);
 });
