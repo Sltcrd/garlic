@@ -28,7 +28,7 @@ const Orbit = {
   /* ring: lista de claves; opts: {main, sub, onPick, onHover, onLeave, hoverSub} */
   render(el, ring, opts = {}) {
     const n = ring.length, bulb = n >= 4, mid = 93, P = (r, a) => `${(r * Math.cos(a)).toFixed(2)} ${(r * Math.sin(a)).toFixed(2)}`;
-    let wedges = '', skin = '<circle class="rind" r="139"/><circle class="rind2" r="134"/>';
+    let wedges = '', skin;
     if (bulb) {
       /* diente de ajo: punta estrecha hacia el centro y panza redondeada hacia fuera */
       const rin = 60, rv = 106, rp = 130, rvs = 118, rps = 139, step = 2 * Math.PI / n, half = step / 2 - 0.045;

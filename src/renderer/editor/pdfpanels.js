@@ -5,7 +5,7 @@ const pdfBytes = async () => new Uint8Array(await ST.file.arrayBuffer());
 /** Runs a PdfTools call; turns its Spanish error keys into the user's language. */
 async function pdfGuard(fn) {
   try { return await fn(); }
-  catch (e) { throw new Error(e instanceof PdfTools.PdfToolError ? t(e.message, e.params) : t('No se pudo procesar el PDF.')); }
+  catch (e) { throw new Error(e instanceof PdfTools.PdfToolError ? t(e.message, e.params) : t('No se pudo procesar el PDF.'), { cause: e }); }
 }
 const pdfBlob = async fn => new Blob([await pdfGuard(fn)], { type: 'application/pdf' });
 /** open() of the PDF modes runs unawaited: show its errors instead of losing them */
@@ -119,7 +119,7 @@ MODES.p_merge = {
     this.render();
   }),
   async add() {
-    let picked = []; try { picked = await nat.pickPdfs(); } catch { return; }
+    let picked; try { picked = await nat.pickPdfs(); } catch { return; }
     for (const f of picked) {
       try {
         if (MG.files.reduce((s, x) => s + x.size, 0) + f.size > MG_TOTAL) throw new Error(t('Demasiado grande: la suma de los PDF no puede pasar de 400 MB.'));
