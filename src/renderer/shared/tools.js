@@ -3,4 +3,4 @@ const AUDIO_TOOLS = ['a_compress', 'a_metadata', 'a_channels', 'a_normalize', 'a
 const SUB_TOOLS = ['s_sync', 't_edit'];
 const TEXT_TOOLS = ['t_edit', 't_clean'];
 const PDF_TOOLS = ['p_pages', 'p_merge', 'p_split', 'p_mark', 'p_numbers', 'p_meta'];
-const VIDEO_TOOLS = ['v_compress', 'v_metadata', 'v_mute', 'v_trim', 'v_crop', 'v_speed', 'v_snapshot', 'v_split'];
+const VIDEO_TOOLS = ['v_studio', 'v_compress', 'v_metadata', 'v_mute', 'v_trim', 'v_crop', 'v_speed', 'v_snapshot', 'v_split'];
