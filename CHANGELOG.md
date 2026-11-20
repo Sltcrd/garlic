@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Fixed: the shortcut fired anywhere on screen (a web page, a chat…) and showed the last file selected in Explorer. It now reacts only to a click on a file in File Explorer or on the Desktop.
+
 ## 1.3.0
 
 - **Safer builds:** every library Garlic uses is now locked to an exact, verified version, and a new library release is not accepted until it has been public for 3 days. Details in SECURITY.md.

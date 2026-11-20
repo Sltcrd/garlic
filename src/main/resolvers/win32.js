@@ -65,6 +65,9 @@ while($true){
     $p=$l.Split(' '); $x=[int]$p[0]; $y=[int]$p[1]
     $cls=''; try{ $cls=[WinAt]::RootClass($x,$y) }catch{}
     $desk=($cls -eq 'Progman' -or $cls -eq 'WorkerW')
+    $expl=($cls -eq 'CabinetWClass' -or $cls -eq 'ExploreWClass')
+    # only the Desktop and File Explorer windows can hold a file: a click on a web page, a chat or any other app is ignored
+    if(-not $desk -and -not $expl){ [Console]::Out.WriteLine('RES|'); continue }
     $name=$null
     if($desk){ $name=[LvHit]::NameAt($x,$y); if(-not $name){ $name=$null } }
     Start-Sleep -Milliseconds 120
@@ -75,14 +78,13 @@ while($true){
       if($t -eq 'ControlType.ListItem' -or $t -eq 'ControlType.DataItem'){ $name=$e.Current.Name; break }
       $e=$w.GetParent($e)
     }
-    for($try=0;$try -lt 5 -and -not $res -and -not $desk;$try++){
+    for($try=0;$try -lt 5 -and -not $res -and -not $desk -and $name;$try++){
       if($try -gt 0){ Start-Sleep -Milliseconds 150 }
       $found=@()
       foreach($win in $sh.Windows()){
         try{ foreach($it in $win.Document.SelectedItems()){ $found += ,@($it.Name,$it.Path) } }catch{}
       }
-      if($name){ foreach($f in $found){ if($f[0] -eq $name -or [IO.Path]::GetFileName($f[1]) -eq $name){ $res=$f[1]; break } } }
-      if(-not $res -and $try -eq 4 -and -not $name -and $found.Count -eq 1){ $res=$found[0][1] }
+      foreach($f in $found){ if($f[0] -eq $name -or [IO.Path]::GetFileName($f[1]) -eq $name){ $res=$f[1]; break } }   # the clicked item must be one of the selected ones; never "the last selection"
     }
     if(-not $res -and $name){
       foreach($d in @([Environment]::GetFolderPath('Desktop'),[Environment]::GetFolderPath('CommonDesktopDirectory'))){
