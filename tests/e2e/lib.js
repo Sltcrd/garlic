@@ -77,6 +77,12 @@ async function launch({ port = 9330 + Math.floor(Math.random() * 400), env = {},
       for (const p of pages.values()) p.close();
       proc.kill();
       await sleep(400);
+      // a stuck Electron would keep the test process (and the CI job) alive for ever: end the whole process tree
+      if (proc.exitCode === null && proc.signalCode === null) {
+        try { if (process.platform === 'win32') require('child_process').spawnSync('taskkill', ['/pid', String(proc.pid), '/T', '/F'], { stdio: 'ignore' }); else proc.kill('SIGKILL'); } catch { /* already gone */ }
+        await sleep(300);
+      }
+      proc.unref();
       try { fs.rmSync(userData, { recursive: true, force: true }); } catch { /* still locked: temp folder, harmless */ }
     }
   };

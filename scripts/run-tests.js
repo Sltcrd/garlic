@@ -11,4 +11,4 @@ const { spawnSync } = require('child_process');
 const dir = path.join(__dirname, '..', 'tests', process.argv[2] || 'unit');
 const files = fs.readdirSync(dir).filter(f => f.endsWith('.test.js')).sort().map(f => path.join(dir, f));
 if (!files.length) { console.error('No test files in ' + dir); process.exit(1); }
-process.exit(spawnSync(process.execPath, ['--test', '--test-timeout=240000', ...files], { stdio: 'inherit' }).status ?? 1);
+process.exit(spawnSync(process.execPath, ['--test', '--test-timeout=240000', '--test-force-exit', ...files], { stdio: 'inherit' }).status ?? 1);
